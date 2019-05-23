@@ -22,7 +22,7 @@ class CreateAddressesTable extends Migration
             $table->string('number');
             $table->string('neighborhood');            
             $table->string('complement')->nullable();
-            $table->integer('zipCode');
+            $table->integer('zipeCode');
 
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
             $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');

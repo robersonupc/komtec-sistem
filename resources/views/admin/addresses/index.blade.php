@@ -62,9 +62,9 @@
                         <td>{{ $address->street }}</td>
                         <td>{{ $address->url }}</td>
                         <td>{{ $address->number }}</td>
-                        <td>{{ $address->neighborhood }}</td>
-                        <td>{{ $address->complement }}</td>
+                        <td>{{ $address->neighborhood }}</td>                        
                         <td>{{ $address->zipeCode }}</td>
+                        <td>{{ $address->complement }}</td>
                         <td>{{ $address->city->title }}</td>
                         <td>{{ $address->state->uf }}</td>
                         <td>

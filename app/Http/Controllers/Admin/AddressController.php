@@ -63,7 +63,7 @@ class AddressController extends Controller
             'number'       => $request->number,
             'neighborhood' => $request->neighborhood,
             'complement'   => $request->complement,
-            'zipCode'      => $request->zipCode,
+            'zipeCode'      => $request->zipeCode,
             'city_id'      => $request->city_id,
             'state_id'     => $request->state_id,
         ]);

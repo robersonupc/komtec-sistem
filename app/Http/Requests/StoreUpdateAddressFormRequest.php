@@ -31,7 +31,7 @@ class StoreUpdateAddressFormRequest extends FormRequest
             'complement'     => "max:9000",
             'city_id'        => 'required',
             'state_id'       => 'required',
-            'zipCode'        => 'required|minn:8|max:8',
+            'zipeCode'        => 'required|minn:8|max:8',
         ];
     }
 }
