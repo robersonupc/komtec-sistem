@@ -63,7 +63,7 @@ class AddressController extends Controller
             'number'       => $request->number,
             'neighborhood' => $request->neighborhood,
             'complement'   => $request->complement,
-            'zipeCode'      => $request->zipeCode,
+            'zipeCode'     => $request->zipeCode,
             'city_id'      => $request->city_id,
             'state_id'     => $request->state_id,
         ]);
@@ -97,19 +97,39 @@ class AddressController extends Controller
      */
     public function edit($id)
     {
-        //
+        $address = DB::table('addresses')->where('id', $id)->first();
+        
+        if (!$address)
+            return redirect()->back();
+
+        return view('admin.addresses.edit', compact('address'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\StoreUpdateAddressFormRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreUpdateAddressFormRequest $request, $id)
     {
-        //
+        DB::table('addresses')
+        ->where('id', $id)
+        ->update([
+            'street'       => $request->street,
+            'url'          => $request->url,
+            'number'       => $request->number,
+            'neighborhood' => $request->neighborhood,
+            'complement'   => $request->complement,
+            'zipeCode'      => $request->zipeCode,
+            'city_id'      => $request->city_id,
+            'state_id'     => $request->state_id,
+        ]);
+
+        return redirect()
+        ->route('addresses.index')
+        ->withSuccess('Cadastro atualizado com sucesso');
     }
 
     /**
@@ -120,6 +140,40 @@ class AddressController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::table('addresses')->where('id', $id)->delete();
+
+        return redirect()->route('addresses.index');
+    }
+
+    public function search(Request $request)
+    {
+        $data = $request->except('_token');
+        /**
+        $addresses = DB::table('addresses')
+            ->where('street', $search)
+            ->orWhere('zipeCode', $search)
+            ->orWhere('neighborhood', 'LIKE', "%$search%")
+            ->get();
+        */
+
+        $addresses = DB::table('addresses')
+        ->where(function($query) use($data) {
+            if(isset($data['street'])){
+                $query->where('street', $data['street']);
+            }
+            
+            if(isset($data['zipeCode'])){
+                $query->orWhere('zipeCode', $data['zipeCode']);
+            }
+
+            if(isset($data['neighborhood'])){
+                $desc = $data['neighborhood'];
+                $query->orWhere('neighborhood', 'LIKE', "%{$desc}%");
+            }
+        })
+        ->orderBy('id', 'desc')
+        ->get();
+
+        return view('admin.addresses.index', compact('addresses', 'data')); 
     }
 }

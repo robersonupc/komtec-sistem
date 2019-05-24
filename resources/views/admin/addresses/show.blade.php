@@ -1,16 +1,16 @@
 @extends('adminlte::page')
 
-@section('title', "Detalhes da marca {$brand->title}")
+@section('title', "Detalhes do endereço {$address->street}")
 
 @section('content_header')
     <h1>
-        Marca: {{ $brand->title }}
+        Endereço: {{ $address->street }}
     </h1>
 
     <ol class="breadcrumb">
             <li><a href="{{ route('home') }}">Dashboard</a></li>
-            <li><a href="{{ route('brands.index') }}">Marcas</a></li>
-            <li><a href="{{ route('brands.show', $brand->id) }}" class="active">Detalhes</a></li>
+            <li><a href="{{ route('addresses.index') }}">Endereços</a></li>
+            <li><a href="{{ route('addresses.show', $address->id) }}" class="active">Detalhes</a></li>
     </ol>
     
 @stop
@@ -19,14 +19,18 @@
     <div class="content row">
         <div class="box box-success">
             <div class="box-body">
-                <p><strong>ID: </strong>{{ $brand->id }}</p>
-                <p><strong>Título: </strong>{{ $brand->title }}</p>
-                <p><strong>URL: </strong>{{ $brand->url }}</p>
-                <p><strong>Descrição: </strong>{{ $brand->description }}</p>
+                <p><strong>ID: </strong>{{ $address->id }}</p>
+                <p><strong>Rua: </strong>{{ $address->street }}</p>
+                <p><strong>URL: </strong>{{ $address->url }}</p>
+                <p><strong>Bairro: </strong>{{ $address->neighborhood }}</p>
+                <p><strong>CEP: </strong>{{ $address->zipeCode }}</p>
+                <p><strong>Complemento: </strong>{{ $address->complement }}</p>
+                <p><strong>Cidade: </strong>{{ $address->city->title }}</p>
+                <p><strong>UF: </strong>{{ $address->state->uf }}</p>
 
                 <hr>
 
-                <form action="{{ route('brands.destroy', $brand->id) }}" class="form" method="POST">
+                <form action="{{ route('addresses.destroy', $address->id) }}" class="form" method="POST">
                     @csrf
 
                     <input type="hidden" name="_method" value="DELETE">

@@ -46,7 +46,7 @@
                       <tr>
                         <th scope="col">#</th>
                         <th scope="col">Rua</th>
-                        <th scope="col">URL</th>
+                        <th scope="col">Número</th>
                         <th scope="col">Bairro</th>
                         <th scope="col">CEP</th>
                         <th scope="col">Complemento</th>
@@ -60,7 +60,6 @@
                       <tr>
                         <th scope="row">{{ $address->id }}</th>
                         <td>{{ $address->street }}</td>
-                        <td>{{ $address->url }}</td>
                         <td>{{ $address->number }}</td>
                         <td>{{ $address->neighborhood }}</td>                        
                         <td>{{ $address->zipeCode }}</td>
