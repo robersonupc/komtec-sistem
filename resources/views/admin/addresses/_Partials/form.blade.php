@@ -21,7 +21,9 @@
     <select name="city_id" class="form-control">
         <option value="">Escolha a Cidade</option>
         @foreach ($cities as $city)
-        <option value="{{ $city->id }}">{{ $city->title }}</option>
+            <option value="{{ $city->id }}"
+                @if ($city->id == $address->city_id) selected @endif
+                >{{ $city->title }}</option>
         @endforeach
     </select>
 </div>
@@ -29,7 +31,9 @@
         <select name="state_id" class="form-control">
             <option value="">Escolha o Estado</option>
             @foreach ($states as $state)
-            <option value="{{ $state->id }}">{{ $state->title }}</option>
+                <option value="{{ $state->id }}"
+                    @if ($state->id == $address->state_id) selected @endif
+                    >{{ $state->title }}</option>
             @endforeach
         </select>
     </div>

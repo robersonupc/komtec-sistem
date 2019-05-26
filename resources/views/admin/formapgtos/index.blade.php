@@ -49,7 +49,6 @@
                         <th scope="col">Parcelas</th>
                         <th scope="col">Prazo Inicial</th>
                         <th scope="col">Dias Entre Parcelas</th>
-                        <th scope="col">URL</th>
                         <th width="130px" scope="col">Ações</th>
                       </tr>
                     </thead>
@@ -61,7 +60,6 @@
                         <td>{{ $formapgto->parcela }}</td>
                         <td>{{ $formapgto->prazoinicial }}</td>
                         <td>{{ $formapgto->diasentreparcelas }}</td>
-                        <td>{{ $formapgto->url }}</td>
                         <td>
                             <a href="{{ route('formapgtos.edit', $formapgto->id) }}" class="badge bg-yellow">
                              Editar

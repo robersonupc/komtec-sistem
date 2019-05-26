@@ -1,10 +1,10 @@
 @extends('adminlte::page')
 
-@section('title', "Detalhes do produto {$product->description}")
+@section('title', "Detalhes do produto {$product->name}")
 
 @section('content_header')
     <h1>
-        Produto: {{ $product->description }}
+        Produto: {{ $product->name }}
     </h1>
 
     <ol class="breadcrumb">
@@ -20,7 +20,7 @@
         <div class="box box-success">
             <div class="box-body">
                 <p><strong>ID: </strong>{{ $product->id }}</p>
-                <p><strong>Nome: </strong>{{ $product->description }}</p>
+                <p><strong>Nome: </strong>{{ $product->name }}</p>
                 <p><strong>NCM: </strong>{{ $product->ncm->code }}</p>
                 <p><strong>Código: </strong>{{ $product->code }}</p>
                 <p><strong>Categoria: </strong>{{ $product->category->title }}</p>
@@ -37,10 +37,11 @@
 
                 <form action="{{ route('products.destroy', $product->id) }}" class="form" method="POST">
                     @csrf
-
-                    <input type="hidden" name="_method" value="DELETE">
-
-                    <button type="submit" class="btn btn-danger">Deletar</button>
+                    @method('DELETE')
+                    
+                    <button type="submit" class="btn btn-danger">
+                            Deletar o produto {{ $product->name }}
+                    </button>
                 </form>
 
             </div>

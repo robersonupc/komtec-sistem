@@ -27,11 +27,11 @@ class StoreUpdateAddressFormRequest extends FormRequest
             'street'         => "required|min:3|max:60|unique:addresses,street,{$id},id",
             'url'            => "required|min:3|max:60|unique:addresses,url,{$id},id",
             'number'         => "required|min:1|max:6,{$id},id",
-            'neighborhood'   => "required|min:3|max:60|unique:addresses,neighborhood,{$id},id",
+            'neighborhood'   => "required|min:3|max:60|",
             'complement'     => "max:9000",
-            'city_id'        => 'required',
-            'state_id'       => 'required',
-            'zipeCode'       => 'required|minn:8|max:8',
+            'city_id'        => 'required|exists:cities,id',
+            'state_id'       => 'required|exists:states,id',
+            'zipeCode'       => 'required|min:8|max:8',
         ];
     }
 }

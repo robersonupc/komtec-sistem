@@ -32,7 +32,7 @@ class ProductController extends Controller
     {
         $products = Product::with('ncm', 'category', 'brand')
                     ->orderBy('id', 'desc')
-                    ->paginate(6);
+                    ->paginate(5);
 
         return view('admin.products.index', compact('products'));
     }
@@ -44,11 +44,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $ncms = Ncm::all();
-        $categories = Category::all();
-        $brands = Brand::all();
-
-        return view('admin.products.create', compact('ncms', 'categories', 'brands'));
+        return view('admin.products.create', compact('product', 'ncms', 'categories', 'brands'));
     }
 
     /**
@@ -59,20 +55,7 @@ class ProductController extends Controller
      */
     public function store(StoreUpdateProductFormRequest $request)
     {
-        DB::table('products')->insert([
-            'description'         => $request->description,
-            'code'                => $request->code,
-            'ncm_id'              => $request->ncm_id,
-            'category_id'         => $request->category_id,
-            'brand_id'            => $request->brand_id,
-            'codeManufacturer'    => $request->codeManufacturer,
-            'pricePurchase'       => $request->pricePurchase,
-            'margin'              => $request->margin,
-            'priceSale'           => $request->priceSale,
-            'qty'                 => $request->qty,
-            'url'                 => $request->url,
-            'note'                => $request->note,
-        ]);
+        $product = $this->product->create($request->all());
 
         return redirect()
             ->route('products.index')
@@ -87,9 +70,9 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = Product::find($id);
+        //$product = Product::find($id);
 
-       //$product = Product::where('id', $id)->first();
+       $product = Product::where('id', $id)->first();
 
         if (!$product)        
             return redirect()->back();
@@ -110,7 +93,7 @@ class ProductController extends Controller
         if (!$product)
             return redirect()->back();
 
-        return view('admin.products.edit', compact('product'));
+        return view('admin.products.edit', compact('product', 'ncms', 'categories', 'brands'));
     }
 
     /**
@@ -122,22 +105,9 @@ class ProductController extends Controller
      */
     public function update(StoreUpdateProductFormRequest $request, $id)
     {
-        DB::table('products')
-            ->where('id', $id)
-            ->update([
-                'description'         => $request->description,
-                'code'                => $request->code,
-                'ncm_id'              => $request->ncm->code,
-                'category_id'         => $request->category->title,
-                'brand_id'            => $request->brand->title,
-                'codeManufacturer'    => $request->codeManufacturer,
-                'pricePurchase'       => $request->pricePurchase,
-                'margin'              => $request->margin,
-                'priceSale'           => $request->priceSale,
-                'qty'                 => $request->qty,
-                'url'                 => $request->url,
-                'note'                => $request->note,
-            ]);
+        $product = $this->product->find($id);
+
+        $product->update($request->all());
 
         return redirect()
             ->route('products.index')
@@ -154,38 +124,47 @@ class ProductController extends Controller
     {
         DB::table('products')->where('id', $id)->delete();
 
-        return redirect()->route('products.index');
+        return redirect()
+                    ->route('products.index')
+                    ->withSuccess('Produto deletado com sucesso!');
     }
 
     public function search(Request $request)
     {
-        $data = $request->except('_token');
-        /**
-        $products = DB::table('products')
-            ->where('description', $search)
-            ->orWhere('code', $search)
-            ->orWhere('description', 'LIKE', "%$search%")
-            ->get();
-        */
+        $filters = $request->except('_token');
 
-        $products = DB::table('products')
-        ->where(function($query) use($data) {
-            if(isset($data['description'])){
-                $query->where('description', $data['description']);
-            }
-            
-            if(isset($data['code'])){
-                $query->orWhere('code', $data['code']);
-            }
+        $products = $this->product
+                            ->with('category')
+                            ->where(function($query) use ($request) {
+                                
+                                if($request->name) {
+                                    $filter = $request->name;
+                                    $query->where(function($querySub) use ($filter) {
+                                        $querySub->where('name', 'LIKE', "%{$filter}%")
+                                                        ->orWhere('code', 'LIKE', "%{$filter}%");
+                                    });
+                                    
+                                }
+                                if($request->pricePurchase) {
+                                    $filter = $request->pricePurchase;
+                                    $query->where(function($querySub) use ($filter) {
+                                        $querySub->where('pricePurchase', 'LIKE', "%{$filter}%")
+                                                        ->orWhere('priceSale', 'LIKE', "%{$filter}%");
+                                    });
+                                    
+                                }
+                                if($request->category) {
+                                    $query->orWhere('category_id', $request->category);
+                                }
+                                if($request->ncm) {
+                                    $query->orWhere('ncm_id', $request->ncm);
+                                }
+                                if($request->brand) {
+                                    $query->orWhere('brand_id', $request->brand);
+                                }
+                        })
+                        ->paginate(5);
 
-            if(isset($data['priceSale'])){
-                $desc = $data['priceSale'];
-                $query->orWhere('priceSale', 'LIKE', "%{$desc}%");
-            }
-        })
-        ->orderBy('id', 'desc')
-        ->get();
-
-        return view('admin.products.index', compact('products', 'data')); 
+        return view('admin.products.index', compact('products', 'filters')); 
     }
 }

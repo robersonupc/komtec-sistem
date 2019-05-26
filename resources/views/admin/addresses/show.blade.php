@@ -26,7 +26,7 @@
                 <p><strong>CEP: </strong>{{ $address->zipeCode }}</p>
                 <p><strong>Complemento: </strong>{{ $address->complement }}</p>
                 <p><strong>Cidade: </strong>{{ $address->city->title }}</p>
-                <p><strong>UF: </strong>{{ $address->state->uf }}</p>
+                <p><strong>UF: </strong>{{ $address->state->title }}</p>
 
                 <hr>
 

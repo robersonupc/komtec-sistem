@@ -4,7 +4,7 @@
 
 @section('content_header')
     <h1>    
-        Editar de Produto {{ $product->description }}
+        Editar de Produto {{ $product->name }}
     </h1>  
     
     <ol class="breadcrumb">
@@ -16,19 +16,18 @@
 @stop
 
 @section('content')
-    <div class="content row">
-        <div class="box box-success">
-            <div class="box-body">
+<div class="content row">
 
-                @include('admin.includes.alerts')
+    <div class="box box-success">
+        <div class="box-body">
 
-                <form action="{{ route('products.update', $product->id) }}" class="form" method="POST">
-                   
-                    <input type="hidden" name="_method" value="PUT">
+            @include('admin.includes.alerts')
 
-                    @include('admin.products._partials.form')
-                </form>
-            </div>
+            {{ Form::model($product, ['route' => ['products.update', $product->id], 'class' => 'form']) }}
+                @method('PUT')
+                @include('admin.products._partials.form')
+            {{ Form::close() }}
         </div>
     </div>
+</div>
 @stop

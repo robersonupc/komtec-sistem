@@ -24,15 +24,34 @@
       <div class="box-body">
           <form action="{{ route('products.search') }}" class="form form-inline" method="POST">
               @csrf
-            <input type="text" name="description" placeholder="Descrição" class="form-control" value="{{ $data['description'] ?? '' }}">
-              <input type="text" name="codeManufacturer" placeholder="Cód. Fabricante" class="form-control" value="{{ $data['codeManufacturer'] ?? '' }}">
-              <input type="text" name="code" placeholder="Código" class="form-control" value="{{ $data['code'] ?? '' }}">
+              <select name="category" class="form-control">
+                <option value="">Categoria</option>
+                @foreach ($categories as $id => $category)
+                  <option value="{{ $id }}" @if (isset($filters['category']) && $filters['category'] == $id)
+                    selected
+                  @endif>{{ $category }}</option>                    
+                @endforeach
+              </select>
+              <select name="ncm" class="form-control">
+                  <option value="">NCM</option>
+                  @foreach ($ncms as $id => $ncm)
+                    <option value="{{ $id }}" @if (isset($filters['ncm']) && $filters['ncm'] == $id)
+                    selected
+                  @endif>{{ $ncm }}</option>                    
+                  @endforeach
+                </select>
+                <select name="brand" class="form-control">
+                    <option value="">Marcas</option>
+                    @foreach ($brands as $id => $brand)
+                      <option value="{{ $id }}" @if (isset($filters['brand']) && $filters['brand'] == $id)
+                      selected
+                    @endif>{{ $brand }}</option>                    
+                    @endforeach
+                  </select>
+              <input type="text" name="name" placeholder="Nome: " class="form-control" value="{{ $filters['name'] ?? '' }}">
+              <input type="text" name="pricePurchase" placeholder="Preço: " class="form-control" value="{{ $filters['pricePurchase'] ?? '' }}">
               <button type="submit" class="btn btn-success">Pesquisar</button>
             </form>
-      
-            @if (isset($data))
-              <a href="{{ route('products.index') }}">(X) Limpar Pesquisa</a>
-            @endif
       </div>
     </div>
         <div class="box box-primary">
@@ -43,30 +62,28 @@
                 <table class="table table-striped">
                     <thead>
                       <tr>
-                        <th scope="col">Descrição</th>
+                        <th scope="col">Nome</th>
                         <th scope="col">Código</th>
                         <th scope="col">NCM</th>                        
                         <th scope="col">Categoria</th>
                         <th scope="col">Marca</th>
-                        <th scope="col">Compra</th>
-                        <th scope="col">Margem</th>
-                        <th scope="col">Venda</th>
+                        <th scope="col">Preço</th>
                         <th scope="col">Qtde</th>
+                        <th scope="col">Descrição</th>
                         <th width="130px" scope="col">Ações</th>
                       </tr>
                     </thead>
                     <tbody>
                         @foreach ($products as $product)
                       <tr>
-                        <td>{{ $product->description }}</td>
+                        <td>{{ $product->name }}</td>
                         <td>{{ $product->code }}</td>
                         <td>{{ $product->ncm->code }}</td>                        
                         <td>{{ $product->category->title }}</td>
                         <td>{{ $product->brand->title }}</td>
-                        <td>R$ {{ $product->pricePurchase }}</td>
-                        <td>{{ $product->margin }}X</td>
                         <td>R$ {{ $product->priceSale }}</td> 
                         <td>{{ $product->qty }}</td>              
+                        <td>{{ $product->note }}</td>
                         <td>
                             <a href="{{ route('products.edit', $product->id) }}" class="badge bg-yellow">
                                 Editar
@@ -80,8 +97,12 @@
                     </tbody>
                   </table>
 
-                  
-
+                  @if (isset($filters))
+                  {!! $products->appends($filters)->links() !!}
+                  @else
+                    {!! $products->links() !!}
+                  @endif
+                   
             </div>
         </div>
    </div>

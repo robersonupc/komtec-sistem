@@ -57,16 +57,7 @@ class AddressController extends Controller
      */
     public function store(StoreUpdateAddressFormRequest $request)
     {
-        DB::table('addresses')->insert([
-            'street'       => $request->street,
-            'url'          => $request->url,
-            'number'       => $request->number,
-            'neighborhood' => $request->neighborhood,
-            'complement'   => $request->complement,
-            'zipeCode'     => $request->zipeCode,
-            'city_id'      => $request->city_id,
-            'state_id'     => $request->state_id,
-        ]);
+        $address = $this->address->create($request->all());
     
             return redirect()
                 ->route('addresses.index')
@@ -81,12 +72,12 @@ class AddressController extends Controller
      */
     public function show($id)
     {
-        $address = DB::table('addresses')->where('id', $id)->first();
+        $address = Address::find($id);
 
         if (!$address)        
         return redirect()->back();
 
-        return view('admin.addresses.show', compact('address'));
+        return view('admin.addresses.show', compact('address', 'cities', 'states'));
     }
 
     /**
@@ -97,12 +88,15 @@ class AddressController extends Controller
      */
     public function edit($id)
     {
+        $cities = City::all();  
+        $states = State::all(); 
+
         $address = DB::table('addresses')->where('id', $id)->first();
         
         if (!$address)
             return redirect()->back();
 
-        return view('admin.addresses.edit', compact('address'));
+        return view('admin.addresses.edit', compact('address', 'cities', 'states'));
     }
 
     /**

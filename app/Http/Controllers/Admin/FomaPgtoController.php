@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\StoreUpdateFormapgtoFormRequest;
 use DB;
+use App\Models\FormaPgmento;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -18,7 +19,7 @@ class FomaPgtoController extends Controller
     {
         $formapgtos = DB::table('formapgtos')
             ->orderBy('id', 'desc')
-            ->paginate(6);
+            ->paginate(5);
 
         return view('admin.formapgtos.index', compact('formapgtos'));
     }

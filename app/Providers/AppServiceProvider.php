@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Category;
+use App\Models\Ncm;
+use App\Models\Brand;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +26,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        //Schema::defaultStringLength(191);
+
+        view()->composer(
+            'admin.products.*',
+            function($view){
+                $view->with('categories', Category::pluck('title', 'id'));
+                $view->with('ncms', Ncm::pluck('code', 'id'));
+                $view->with('brands', Brand::pluck('title', 'id'));
+            }
+        );
     }
 }

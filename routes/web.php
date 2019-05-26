@@ -6,6 +6,8 @@ Route::resource('admin/ncms', 'Admin\NcmController');
 Route::any('admin/cfops/search', 'Admin\CfopController@search')->name('cfops.search');
 Route::resource('admin/cfops', 'Admin\CfopController');
 
+//$this->any('admin/products/search', 'Admin\ProductController@search')->name('products.search');
+//$this->resource('admin/products', 'Admin\ProductController');
 Route::any('admin/products/search', 'Admin\ProductController@search')->name('products.search');
 Route::resource('admin/products', 'Admin\ProductController');
 

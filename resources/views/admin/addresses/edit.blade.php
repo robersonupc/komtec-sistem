@@ -4,7 +4,7 @@
 
 @section('content_header')
     <h1>    
-         Editar de Endereço {{ $address->street }}
+      Editar Endereço {{ $address->street }}
     </h1>  
     
     <ol class="breadcrumb">
