@@ -27,7 +27,6 @@ class StoreUpdateNcmFormRequest extends FormRequest
         return [
             'code'            => "required|min:8|max:8|unique:ncms,code,{$id},id",
             'description'   => "required|min:3|max:255|unique:ncms,description,{$id},id",
-            'url'           => "required|min:3|max:60|unique:ncms,url,{$id},id",
         ];
     }
 }

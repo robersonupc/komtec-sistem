@@ -52,23 +52,23 @@
                       </tr>
                     </thead>
                     <tbody>
-                        @foreach ($ncms as $ncm)
-                      <tr>
-                        <th scope="row">{{ $ncm->id }}</th>
-                        <td>{{ $ncm->code }}</td>
-                        <td>{{ $ncm->description }}</td>
-                        <td>{{ $ncm->url }}</td>
-                        <td>
-                            <a href="{{ route('ncms.edit', $ncm->id) }}" class="badge bg-yellow">
-                             Editar
-                            </a>
-                            <a href="{{ route('ncms.show', $ncm->id) }}" class="badge bg-info">
-                              Detalhes
-                            </a>
-                        </td>
-                      </tr> 
-                      @endforeach                     
-                    </tbody>
+                      @foreach ($ncms as $ncm)
+                    <tr>
+                      <th scope="row">{{ $ncm->id }}</th>
+                      <td>{{ $ncm->code }}</td>
+                      <td>{{ $ncm->url }}</td>
+                      <td>{{ $ncm->description }}</td>
+                      <td>
+                        <a href="{{ route('ncms.edit', $ncm->id) }}" class="badge bg-yellow">
+                          Editar
+                        </a>
+                        <a href="{{ route('ncms.show', $ncm->id) }}" class="badge bg-info">
+                          Detalhes
+                        </a>
+                      </td>
+                    </tr> 
+                    @endforeach                     
+                  </tbody>
                   </table>
 
                   @if (isset($data))

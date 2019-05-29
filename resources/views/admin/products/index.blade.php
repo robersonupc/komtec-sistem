@@ -52,6 +52,11 @@
               <input type="text" name="pricePurchase" placeholder="Preço: " class="form-control" value="{{ $filters['pricePurchase'] ?? '' }}">
               <button type="submit" class="btn btn-success">Pesquisar</button>
             </form>
+            
+            @if (isset($request))
+              <a href="{{ route('products.index') }}">(X) Limpar Pesquisa</a>
+            @endif
+            
       </div>
     </div>
         <div class="box box-primary">

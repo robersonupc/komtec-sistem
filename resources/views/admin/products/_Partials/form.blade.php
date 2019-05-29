@@ -17,7 +17,7 @@
     {{ Form::text('codeManufacturer', null, ['placeholder' => 'Código do Fabricante', 'class' => 'form-control']) }}
 </div>
 <div class="form-group">
-        {{ Form::text('url', null, ['placeholder' => 'URL', 'class' => 'form-control']) }}
+    {{ Form::text('url', null, ['placeholder' => 'URL', 'class' => 'form-control']) }}
 </div>
 <div class="form-group">
     {{ Form::text('pricePurchase', null, ['placeholder' => 'Valor de Compra', 'class' => 'form-control']) }}

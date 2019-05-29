@@ -3,7 +3,6 @@
 namespace App\Repositories\Core;
 
 use App\Repositories\Exceptions\PropertyTableNotExists;
-// use DB;
 use Illuminate\Database\DatabaseManager as DB;
 use App\Repositories\Contracts\RepositoryInterface;
 
@@ -50,7 +49,7 @@ class BaseQueryBuilderRepository implements RepositoryInterface
                         ->first();
     }
 
-    public function paginate($totalPage = 10)
+    public function paginate($totalPage = 5)
     {
         return $this->db
                     ->table($this->tb)

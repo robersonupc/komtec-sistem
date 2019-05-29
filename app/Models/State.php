@@ -9,7 +9,7 @@ class State extends Model
 {
     protected $fillable = ['title', 'url', 'uf'];
 
-    public function address()
+    public function addresses()
     {
         return $this->hasMany(Address::class);
     }

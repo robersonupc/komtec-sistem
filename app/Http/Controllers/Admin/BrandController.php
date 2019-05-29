@@ -3,12 +3,20 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\StoreUpdateBrandFormRequest;
-use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use App\Repositories\Contracts\BrandRepositoryInterface;
+
 class BrandController extends Controller
 {
+    protected $repository;
+
+    public function __construct(BrandRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,9 +24,7 @@ class BrandController extends Controller
      */
     public function index()
     {
-        $brands = DB::table('brands')
-            ->orderBy('id', 'desc')
-            ->paginate(8);
+        $brands = $this->repository->orderBy('id')->paginate();
 
         return view('admin.brands.index', compact('brands'));
     }
@@ -41,9 +47,8 @@ class BrandController extends Controller
      */
     public function store(StoreUpdateBrandFormRequest $request)
     {
-        DB::table('brands')->insert([
+        $this->repository->store([
             'title'       => $request->title,
-            'url'         => $request->url,
             'description' => $request->description
         ]);
 
@@ -60,10 +65,10 @@ class BrandController extends Controller
      */
     public function show($id)
     {
-        $brand = DB::table('brands')->where('id', $id)->first();
+        $brand = $this->repository->findById($id);
 
         if (!$brand)        
-        return redirect()->back();
+             return redirect()->back();
 
         return view('admin.brands.show', compact('brand'));
     }
@@ -75,10 +80,8 @@ class BrandController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        $brand = DB::table('brands')->where('id', $id)->first();
-        
-        if (!$brand)
+    {        
+        if (!$brand = $this->repository->findById($id))
             return redirect()->back();
 
         return view('admin.brands.edit', compact('brand'));
@@ -93,11 +96,9 @@ class BrandController extends Controller
      */
     public function update(StoreUpdateBrandFormRequest $request, $id)
     {
-        DB::table('brands')
-            ->where('id', $id)
-            ->update([
+        $this->repository
+            ->update($id, [
                 'title'       => $request->title,
-                'url'         => $request->url,
                 'description' => $request->description,
             ]);
 
@@ -112,7 +113,7 @@ class BrandController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('brands')->where('id', $id)->delete();
+        $this->repository->delete($id);
 
         return redirect()->route('brands.index');
     }
@@ -120,31 +121,8 @@ class BrandController extends Controller
     public function search(Request $request)
     {
         $data = $request->except('_token');
-        /**
-        $brands = DB::table('brands')
-            ->where('title', $search)
-            ->orWhere('url', $search)
-            ->orWhere('description', 'LIKE', "%$search%")
-            ->get();
-        */
 
-        $brands = DB::table('brands')
-        ->where(function($query) use($data) {
-            if(isset($data['title'])){
-                $query->where('title', $data['title']);
-            }
-            
-            if(isset($data['url'])){
-                $query->orWhere('url', $data['url']);
-            }
-
-            if(isset($data['description'])){
-                $desc = $data['description'];
-                $query->orWhere('description', 'LIKE', "%{$desc}%");
-            }
-        })
-        ->orderBy('id', 'desc')
-        ->get();
+        $brands = $this->repository->search($data);
 
         return view('admin.brands.index', compact('brands', 'data')); 
     }

@@ -2,26 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Repositories\Contracts\ProductRepositoryInterface;
 use App\Http\Requests\StoreUpdateProductFormRequest;
-use DB;
-use App\Models\Product;
-use App\Models\Category;
-use App\Models\Ncm;
-use App\Models\Brand;
-use App\Http\Controllers\Admin\NcmController;
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\BrandController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 class ProductController extends Controller
 {
-    protected $product;
+    protected $repository;
 
-    public function __construct(Product $product)
+    public function __construct(ProductRepositoryInterface $repository)
     {
-        $this->product = $product;
+        $this->repository = $repository;
     }
     /**
      * Display a listing of the resource.
@@ -30,11 +23,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('ncm', 'category', 'brand')
-                    ->orderBy('id', 'desc')
-                    ->paginate(5);
-
+        $products = $this->repository->orderBy('id')->relationships('category', 'ncm', 'brand')->paginate();
+        
         return view('admin.products.index', compact('products'));
+
     }
 
     /**
@@ -55,7 +47,7 @@ class ProductController extends Controller
      */
     public function store(StoreUpdateProductFormRequest $request)
     {
-        $product = $this->product->create($request->all());
+        $product = $this->repository->store($request->all());
 
         return redirect()
             ->route('products.index')
@@ -70,9 +62,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //$product = Product::find($id);
-
-       $product = Product::where('id', $id)->first();
+       $product = $this->repository->findWhereFirst('id', $id);
 
         if (!$product)        
             return redirect()->back();
@@ -88,9 +78,7 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $product = DB::table('products')->where('id', $id)->first();
-        
-        if (!$product)
+        if (!$product = $this->repository->findById($id))
             return redirect()->back();
 
         return view('admin.products.edit', compact('product', 'ncms', 'categories', 'brands'));
@@ -105,9 +93,7 @@ class ProductController extends Controller
      */
     public function update(StoreUpdateProductFormRequest $request, $id)
     {
-        $product = $this->product->find($id);
-
-        $product->update($request->all());
+        $this->repository->update($id, $request->all());
 
         return redirect()
             ->route('products.index')
@@ -122,7 +108,7 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('products')->where('id', $id)->delete();
+        $this->repository->delete($id);
 
         return redirect()
                     ->route('products.index')
@@ -133,38 +119,9 @@ class ProductController extends Controller
     {
         $filters = $request->except('_token');
 
-        $products = $this->product
-                            ->with('category')
-                            ->where(function($query) use ($request) {
-                                
-                                if($request->name) {
-                                    $filter = $request->name;
-                                    $query->where(function($querySub) use ($filter) {
-                                        $querySub->where('name', 'LIKE', "%{$filter}%")
-                                                        ->orWhere('code', 'LIKE', "%{$filter}%");
-                                    });
-                                    
-                                }
-                                if($request->pricePurchase) {
-                                    $filter = $request->pricePurchase;
-                                    $query->where(function($querySub) use ($filter) {
-                                        $querySub->where('pricePurchase', 'LIKE', "%{$filter}%")
-                                                        ->orWhere('priceSale', 'LIKE', "%{$filter}%");
-                                    });
-                                    
-                                }
-                                if($request->category) {
-                                    $query->orWhere('category_id', $request->category);
-                                }
-                                if($request->ncm) {
-                                    $query->orWhere('ncm_id', $request->ncm);
-                                }
-                                if($request->brand) {
-                                    $query->orWhere('brand_id', $request->brand);
-                                }
-                        })
-                        ->paginate(5);
+        $products = $this->repository->search($request);
 
         return view('admin.products.index', compact('products', 'filters')); 
     }
+    
 }

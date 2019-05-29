@@ -26,7 +26,7 @@ class StoreUpdateCategoryFormRequest extends FormRequest
         $id = $this->segment(3);
         return [
             'title'         => "required|min:3|max:60|unique:brands,title,{$id},id",
-            'url'           => "required|min:3|max:60|unique:brands,url,{$id},id",
+            //'url'           => "required|min:3|max:60|unique:brands,url,{$id},id",
             'description'   => 'max:2000',
         ];
     }

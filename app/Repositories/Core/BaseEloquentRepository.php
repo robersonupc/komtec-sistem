@@ -3,6 +3,7 @@
 namespace App\Repositories\Core;
 
 use App\Repositories\Exceptions\NotEntityDefined;
+
 use App\Repositories\Contracts\RepositoryInterface;
 
 class BaseEloquentRepository implements RepositoryInterface
@@ -38,7 +39,7 @@ class BaseEloquentRepository implements RepositoryInterface
                         ->first();
     }
 
-    public function paginate($totalPage = 10)
+    public function paginate($totalPage = 5)
     {
         return $this->entity->paginate($totalPage);
     }
@@ -51,8 +52,7 @@ class BaseEloquentRepository implements RepositoryInterface
     public function update($id, array $data)
     {
         $entity = $this->findById($id);
-
-        return $entity->update($data);
+            return $entity->update($data);
     }
 
     public function delete($id)
@@ -63,15 +63,12 @@ class BaseEloquentRepository implements RepositoryInterface
     public function relationships(...$relationships)
     {
         $this->entity = $this->entity->with($relationships);
-
-        return $this;
+             return $this;
     }
-
     public function orderBy($column, $order = 'DESC')
     {
         $this->entity = $this->entity->orderBy($column, $order);
-
-        return $this;
+            return $this;
     }
 
     public function resolveEntity()

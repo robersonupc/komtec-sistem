@@ -29,9 +29,11 @@
                 <form action="{{ route('ncms.destroy', $ncm->id) }}" class="form" method="POST">
                     @csrf
 
-                    <input type="hidden" name="_method" value="DELETE">
+                    @method('DELETE')
 
-                    <button type="submit" class="btn btn-danger">Deletar</button>
+                    <button type="submit" class="btn btn-danger">
+                        Deletar o marca {{ $ncm->code }}
+                    </button>
                 </form>
 
             </div>

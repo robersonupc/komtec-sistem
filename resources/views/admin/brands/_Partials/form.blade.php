@@ -1,12 +1,8 @@
-@csrf
 <div class="form-group">
-    <input type="text" value="{{ $brand->title ?? old('title') }}" name="title" class="form-control" placeholder="Título">
+    {{ Form::text('title', null, ['placeholder' => 'Nome', 'class' => 'form-control']) }}
 </div>
 <div class="form-group">
-    <input type="text" value="{{ $brand->url ?? old('url') }}" name="url" class="form-control" placeholder="URL">
-</div>
-<div class="form-group">
-    <textarea type="text" name="description" class="form-control" cols="30" rows="10" placeholder="Descrição">{{ $brand->description ?? old('description') }}</textarea>
+    {{ Form::textarea('description', null, ['placeholder' => 'Descrição', 'class' => 'form-control']) }}
 </div>
 <div class="form-group">
     <button type="submit" class="btn btn-success">Salvar</button>

@@ -27,11 +27,14 @@
                 <hr>
 
                 <form action="{{ route('brands.destroy', $brand->id) }}" class="form" method="POST">
+
                     @csrf
 
-                    <input type="hidden" name="_method" value="DELETE">
+                    @method('DELETE')
 
-                    <button type="submit" class="btn btn-danger">Deletar</button>
+                    <button type="submit" class="btn btn-danger">
+                        Deletar o marca {{ $brand->title }}
+                    </button>
                 </form>
 
             </div>

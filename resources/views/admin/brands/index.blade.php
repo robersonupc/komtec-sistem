@@ -59,12 +59,12 @@
                         <td>{{ $brand->url }}</td>
                         <td>{{ $brand->description }}</td>
                         <td>
-                            <a href="{{ route('brands.edit', $brand->id) }}" class="badge bg-yellow">
-                             Editar
-                            </a>
-                            <a href="{{ route('brands.show', $brand->id) }}" class="badge bg-info">
-                              Detalhes
-                            </a>
+                          <a href="{{ route('brands.edit', $brand->id) }}" class="badge bg-yellow">
+                            Editar
+                          </a>
+                          <a href="{{ route('brands.show', $brand->id) }}" class="badge bg-info">
+                            Detalhes
+                          </a>
                         </td>
                       </tr> 
                       @endforeach                     

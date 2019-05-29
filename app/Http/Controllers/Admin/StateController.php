@@ -18,7 +18,7 @@ class StateController extends Controller
     {
         $states = DB::table('states')
             ->orderBy('id', 'desc')
-            ->paginate(6);
+            ->paginate(5);
 
         return view('admin.states.index', compact('states'));
     }

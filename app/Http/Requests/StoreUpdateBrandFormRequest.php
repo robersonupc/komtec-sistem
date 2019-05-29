@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Http\Controllers\Admin\BrandController;
 
 class StoreUpdateBrandFormRequest extends FormRequest
 {
@@ -26,7 +25,6 @@ class StoreUpdateBrandFormRequest extends FormRequest
         $id = $this->segment(3);
         return [
             'title'         => "required|min:3|max:60|unique:categories,title,{$id},id",
-            'url'           => "required|min:3|max:60|unique:categories,url,{$id},id",
             'description'   => 'max:2000',
         ];
     }

@@ -2,24 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Repositories\Contracts\AddressRepositoryInterface;
 use App\Http\Requests\StoreUpdateAddressFormRequest;
-use DB;
-use App\Models\Address;
-use App\Models\City;
-use App\Models\State;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\CityController;
-use App\Http\Controllers\StateController;
-use Illuminate\Http\Response;
 
 class AddressController extends Controller
 {
-    protected $address;
+    protected $repository;
 
-    public function __construct(Address $address)
+    public function __construct(AddressRepositoryInterface $repository)
     {
-        $this->address = $address;
+        $this->repository = $repository;
     }
 
     /**
@@ -29,9 +24,10 @@ class AddressController extends Controller
      */
     public function index()
     {
-        $addresses = Address::with('city', 'state')
-            ->orderBy('id', 'desc')
-            ->paginate(5);
+        $addresses =  $this->repository
+                                    ->orderBy('id')
+                                    ->relationships('address', 'city', 'state')
+                                    ->paginate();
 
         return view('admin.addresses.index', compact('addresses'));
     }
@@ -42,11 +38,9 @@ class AddressController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        $cities = City::all();  
-        $states = State::all();  
+    {  
 
-        return view('admin.addresses.create', compact('cities', 'states'));
+        return view('admin.addresses.create', compact('address', 'cities', 'states'));
     }
 
     /**
@@ -57,7 +51,7 @@ class AddressController extends Controller
      */
     public function store(StoreUpdateAddressFormRequest $request)
     {
-        $address = $this->address->create($request->all());
+        $address = $this->repository->store($request->all());
     
             return redirect()
                 ->route('addresses.index')
@@ -72,7 +66,7 @@ class AddressController extends Controller
      */
     public function show($id)
     {
-        $address = Address::find($id);
+        $address = $this->repository->findWhereFirst('id', $id);
 
         if (!$address)        
         return redirect()->back();
@@ -88,12 +82,7 @@ class AddressController extends Controller
      */
     public function edit($id)
     {
-        $cities = City::all();  
-        $states = State::all(); 
-
-        $address = DB::table('addresses')->where('id', $id)->first();
-        
-        if (!$address)
+        if (!$address = $this->repository->findById($id))
             return redirect()->back();
 
         return view('admin.addresses.edit', compact('address', 'cities', 'states'));
@@ -108,18 +97,7 @@ class AddressController extends Controller
      */
     public function update(StoreUpdateAddressFormRequest $request, $id)
     {
-        DB::table('addresses')
-        ->where('id', $id)
-        ->update([
-            'street'       => $request->street,
-            'url'          => $request->url,
-            'number'       => $request->number,
-            'neighborhood' => $request->neighborhood,
-            'complement'   => $request->complement,
-            'zipeCode'      => $request->zipeCode,
-            'city_id'      => $request->city_id,
-            'state_id'     => $request->state_id,
-        ]);
+        $this->repository->update($id, $request->all());
 
         return redirect()
         ->route('addresses.index')
@@ -134,39 +112,16 @@ class AddressController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('addresses')->where('id', $id)->delete();
+        $this->repository->delete($id);
 
         return redirect()->route('addresses.index');
     }
 
     public function search(Request $request)
     {
-        $data = $request->except('_token');
-        /**
-        $addresses = DB::table('addresses')
-            ->where('street', $search)
-            ->orWhere('zipeCode', $search)
-            ->orWhere('neighborhood', 'LIKE', "%$search%")
-            ->get();
-        */
+        $filters = $request->except('_token');
 
-        $addresses = DB::table('addresses')
-        ->where(function($query) use($data) {
-            if(isset($data['street'])){
-                $query->where('street', $data['street']);
-            }
-            
-            if(isset($data['zipeCode'])){
-                $query->orWhere('zipeCode', $data['zipeCode']);
-            }
-
-            if(isset($data['neighborhood'])){
-                $desc = $data['neighborhood'];
-                $query->orWhere('neighborhood', 'LIKE', "%{$desc}%");
-            }
-        })
-        ->orderBy('id', 'desc')
-        ->get();
+        $addresses = $this->repository->search($request);
 
         return view('admin.addresses.index', compact('addresses', 'data')); 
     }

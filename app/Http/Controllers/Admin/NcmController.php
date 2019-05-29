@@ -3,12 +3,20 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\StoreUpdateNcmFormRequest;
-use DB;
+use App\Repositories\Contracts\NcmRepositoryInterface;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class NcmController extends Controller
 {
+    protected $repository;
+
+    public function __construct(NcmRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,9 +24,7 @@ class NcmController extends Controller
      */
     public function index()
     {
-        $ncms = DB::table('ncms')
-            ->orderBy('id', 'desc')
-            ->paginate(6);
+        $ncm = $this->repository->orderBy('id')->paginate();
 
         return view('admin.ncms.index', compact('ncms'));
     }
@@ -41,10 +47,9 @@ class NcmController extends Controller
      */
     public function store(StoreUpdateNcmFormRequest $request)
     {
-        DB::table('ncms')->insert([
+        $this->repository->store([
             'code'      => $request->code,
             'description' => $request->description,
-            'url'         => $request->url
             
         ]);
 
@@ -61,7 +66,7 @@ class NcmController extends Controller
      */
     public function show($id)
     {
-        $ncm = DB::table('ncms')->where('id', $id)->first();
+        $ncm = $this->repository->findById($id);
 
         if (!$ncm)        
              return redirect()->back();
@@ -77,9 +82,7 @@ class NcmController extends Controller
      */
     public function edit($id)
     {
-        $ncm = DB::table('ncms')->where('id', $id)->first();
-        
-        if (!$ncm)
+        if (!$ncm = $this->repository->findById($id))
             return redirect()->back();
 
         return view('admin.ncms.edit', compact('ncm'));
@@ -94,12 +97,10 @@ class NcmController extends Controller
      */
     public function update(StoreUpdateNcmFormRequest $request, $id)
     {
-        DB::table('ncms')
-            ->where('id', $id)
-            ->update([
+        $this->repository
+            ->update($id, [
             'code'      => $request->code,
-            'description' => $request->description,
-            'url'         => $request->url
+            'description' => $request->description
             ]);
 
         return redirect()
@@ -115,7 +116,7 @@ class NcmController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('ncms')->where('id', $id)->delete();
+        $this->repository->delete($id);
 
         return redirect()->route('ncms.index');
     }
@@ -123,32 +124,8 @@ class NcmController extends Controller
     public function search(Request $request)
     {
         $data = $request->except('_token');
-        /**
-        $ncms = DB::table('ncms')
-            ->where('code', $search)
-            ->orWhere('url', $search)
-            ->orWhere('description', 'LIKE', "%$search%")
-            ->get();
-        */
 
-        $ncms = DB::table('ncms')
-        ->where(function($query) use($data) {
-            if(isset($data['code'])){
-                $query->where('code', $data['code']);
-            }
-            
-            if(isset($data['url'])){
-                $query->orWhere('url', $data['url']);
-            }
-
-            if(isset($data['description'])){
-                $desc = $data['description'];
-                $query->orWhere('description', 'LIKE', "%{$desc}%");
-            }
-
-        })
-        ->orderBy('id', 'desc')
-        ->get();
+        $ncms = $this->repository->search($data); 
 
         return view('admin.ncms.index', compact('ncms', 'data')); 
     }

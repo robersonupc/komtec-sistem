@@ -33,4 +33,12 @@ class EloquentCategoryRepository extends BaseEloquentRepository implements Categ
                         ->orderBy('id', 'desc')
                         ->paginate();
     }
+
+    public function productsByCategoryId($id)
+    {
+        return $this->db
+                        ->table('products')
+                        ->where('category_id', $id)
+                        ->get();
+    }
 }

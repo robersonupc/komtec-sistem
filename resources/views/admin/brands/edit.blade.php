@@ -16,19 +16,18 @@
 @stop
 
 @section('content')
-    <div class="content row">
-        <div class="box box-success">
-            <div class="box-body">
+<div class="content row">
 
-                @include('admin.includes.alerts')
+    <div class="box box-success">
+        <div class="box-body">
 
-                <form action="{{ route('brands.update', $brand->id) }}" class="form" method="POST">
-                   
-                    <input type="hidden" name="_method" value="PUT">
+            @include('admin.includes.alerts')
 
-                    @include('admin.brands._partials.form')
-                </form>
-            </div>
+            {{ Form::model($brand, ['route' => ['brands.update', $brand->id], 'class' => 'form']) }}
+                @method('PUT')
+                @include('admin.brands._partials.form')
+            {{ Form::close() }}
         </div>
     </div>
+</div>
 @stop

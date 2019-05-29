@@ -22,12 +22,10 @@
 
                 @include('admin.includes.alerts')
 
-                <form action="{{ route('ncms.update', $ncm->id) }}" class="form" method="POST">
-                   
-                    <input type="hidden" name="_method" value="PUT">
-
-                    @include('admin.ncms._partials.form')
-                </form>
+                {{ Form::model($ncm, ['route' => ['ncms.update', $ncm->id], 'class' => 'form']) }}
+                @method('PUT')
+                @include('admin.ncms._partials.form')
+            {{ Form::close() }}
             </div>
         </div>
     </div>

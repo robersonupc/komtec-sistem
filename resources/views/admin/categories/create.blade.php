@@ -16,14 +16,17 @@
 @stop
 
 @section('content')
-   <div class="content row">
-        <div class="box box-primary">
-            <div class="box-body">                
-                @include('admin.includes.alerts')
-            <form action="{{ route('categories.store') }}" class="form" method="POST">
-                @include('admin.categories._partials.form')    
-            </form>    
-            </div>
+<div class="content row">
+
+    <div class="box box-success">
+        <div class="box-body">
+
+            @include('admin.includes.alerts')
+
+            {{ Form::open(['route' => 'categories.store', 'class' => 'form']) }}
+                @include('admin.categories._partials.form')
+            {{ Form::close() }}
         </div>
-   </div>
+    </div>
+</div>
 @stop
