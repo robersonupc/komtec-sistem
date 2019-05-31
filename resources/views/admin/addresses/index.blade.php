@@ -24,7 +24,7 @@
       <div class="box-body">
       <form action="{{ route('addresses.search') }}" class="form form-inline" method="POST">
         @csrf
-      <input type="text" name="street" placeholder="Rua" class="form-control" value="{{ $data['street'] ?? '' }}">
+        <input type="text" name="rua" placeholder="Rua" class="form-control" value="{{ $data['rua'] ?? '' }}">
         <input type="text" name="neighborhood" placeholder="Bairro" class="form-control" value="{{ $data['neighborhood'] ?? '' }}">
         <input type="text" name="zipeCode" placeholder="CEP" class="form-control" value="{{ $data['zipeCode'] ?? '' }}">
         <button type="submit" class="btn btn-success">Pesquisar</button>
@@ -52,6 +52,7 @@
                         <th scope="col">Complemento</th>
                         <th scope="col">Cidade</th>
                         <th scope="col">UF</th>
+                        <th scope="col">URL</th>
                         <th width="130px" scope="col">Ações</th>
                       </tr>
                     </thead>
@@ -59,13 +60,14 @@
                         @foreach ($addresses as $address)
                       <tr>
                         <th scope="row">{{ $address->id }}</th>
-                        <td>{{ $address->street }}</td>
+                        <td>{{ $address->rua }}</td>
                         <td>{{ $address->number }}</td>
                         <td>{{ $address->neighborhood }}</td>                        
                         <td>{{ $address->zipeCode }}</td>
                         <td>{{ $address->complement }}</td>
                         <td>{{ $address->city->title }}</td>
                         <td>{{ $address->state->uf }}</td>
+                        <td>{{ $address->url }}</td>
                         <td>
                             <a href="{{ route('addresses.edit', $address->id) }}" class="badge bg-yellow">
                              Editar

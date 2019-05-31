@@ -4,7 +4,7 @@
 
 @section('content_header')
     <h1>    
-      Editar Endereço {{ $address->street }}
+      Editar Endereço {{ $address->rua }}
     </h1>  
     
     <ol class="breadcrumb">
@@ -22,12 +22,10 @@
 
                 @include('admin.includes.alerts')
 
-                <form action="{{ route('addresses.update', $address->id) }}" class="form" method="POST">
-                   
-                    <input type="hidden" name="_method" value="PUT">
-
+                {{ Form::model($address, ['route' => ['addresses.update', $address->id], 'class' => 'form']) }}
+                    @method('PUT')
                     @include('admin.addresses._partials.form')
-                </form>
+                {{ Form::close() }}
             </div>
         </div>
     </div>

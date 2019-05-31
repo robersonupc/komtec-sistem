@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Address;
 
 class City extends Model
 {
@@ -11,6 +10,6 @@ class City extends Model
 
     public function addresses()
     {
-      return $this->hasMany(Address::class);
+        return $this->hasMany(Address::class);
     }
 }

@@ -17,23 +17,31 @@ class EloquentAddressRepository extends BaseEloquentRepository implements Addres
     public function search(Request $request)
     {
         return $this->entity
-                    ->where(function($query) use ($request) {
-                        
-                        if($request->street) {
-                            $filter = $request->street;
-                            $query->where(function($querySub) use ($filter) {
-                                $querySub->where('street', 'LIKE', "%{$filter}%")
-                                                ->orWhere('zipeCode', 'LIKE', "%{$filter}%");
-                            });
-                            
-                        }
-                        if($request->city) {
-                            $query->orWhere('city_id', $request->city);
-                        }
-                        if($request->state) {
-                            $query->orWhere('state_id', $request->state);
-                        }
-                })
-                ->paginate(5);
+                            ->where(function($query) use ($request) {
+                                
+                                if($request->rua) {
+                                    $filter = $request->rua;
+                                    $query->where(function($querySub) use ($filter) {
+                                        $querySub->where('rua', 'LIKE', "%{$filter}%")
+                                                        ->orWhere('zipeCode', 'LIKE', "%{$filter}%");
+                                    });
+                                    
+                                }
+                                if($request->zipeCode) {
+                                    $filter = $request->zipeCode;
+                                    $query->where(function($querySub) use ($filter) {
+                                        $querySub->where('zipeCode', 'LIKE', "%{$filter}%")
+                                                        ->orWhere('zipeCode', 'LIKE', "%{$filter}%");
+                                    });
+                                    
+                                }
+                                if($request->city) {
+                                    $query->orWhere('city_id', $request->city);
+                                }
+                                if($request->state) {
+                                    $query->orWhere('state_id', $request->state);
+                                }
+                        })
+                        ->paginate(5);
     }
 }

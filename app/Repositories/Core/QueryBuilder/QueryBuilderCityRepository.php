@@ -14,18 +14,14 @@ class QueryBuilderCityRepository extends BaseQueryBuilderRepository implements C
         return $this->db
                         ->table($this->tb)
                         ->where(function ($query) use ($data) {
-                            if (isset($data['street'])) {
-                                $query->where('street', $data['street']);
+                            if (isset($data['title'])) {
+                                $query->where('title', $data['title']);
                             }
 
                             if (isset($data['url'])) {
                                 $query->orWhere('url', $data['url']);
                             }
-
-                            if (isset($data['zipeCode'])) {
-                                $desc = $data['zipeCode'];
-                                $query->where('zipeCode', 'LIKE', "%{$desc}%");
-                            }
+                           
                         })
                         ->orderBy('id', 'desc')
                         ->paginate();
@@ -33,7 +29,7 @@ class QueryBuilderCityRepository extends BaseQueryBuilderRepository implements C
 
     public function store(array $data)
     {
-        $data['url'] = kebab_case($data['street']);
+        $data['url'] = kebab_case($data['title']);
 
         return $this->db->table($this->tb)
                     ->insert($data);
@@ -41,7 +37,7 @@ class QueryBuilderCityRepository extends BaseQueryBuilderRepository implements C
 
     public function update($id, array $data)
     {
-        $data['url'] = kebab_case($data['street']);
+        $data['url'] = kebab_case($data['title']);
         
         return $this->db->table($this->tb)
                     ->where('id', $id)
@@ -53,6 +49,14 @@ class QueryBuilderCityRepository extends BaseQueryBuilderRepository implements C
         return $this->db
                         ->table('cities')
                         ->where('city_id', $id)
+                        ->get();
+    }
+
+    public function addressesByStateId($id)
+    {
+        return $this->db
+                        ->table('states')
+                        ->where('state_id', $id)
                         ->get();
     }
 

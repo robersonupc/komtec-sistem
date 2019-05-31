@@ -1,9 +1,6 @@
 @csrf
 <div class="form-group">
-    {{ Form::text('street', null, ['placeholder' => 'Rua', 'class' => 'form-control']) }}
-</div>
-<div class="form-group">
-    {{ Form::text('url', null, ['placeholder' => 'URL', 'class' => 'form-control']) }}
+    {{ Form::text('rua', null, ['placeholder' => 'Rua', 'class' => 'form-control']) }}
 </div>
 <div class="form-group">
     {{ Form::text('number', null, ['placeholder' => 'Número', 'class' => 'form-control']) }}

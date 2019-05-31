@@ -110,6 +110,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(//Endereço
             AddressRepositoryInterface::class,
             EloquentAddressRepository::class
+            //QueryBuilderAddressRepository::class
         );
 
         $this->app->bind(

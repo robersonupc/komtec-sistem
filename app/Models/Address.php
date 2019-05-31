@@ -10,14 +10,14 @@ use App\Models\City;
 
 class Address extends Model
 {
-    protected $fillable = ['city_id', 'state_id', 'street', 'url', 'number', 'neighborhood', 'complement', 'zipeCode'];
+    protected $fillable = ['city_id', 'state_id', 'rua', 'url', 'number', 'neighborhood', 'complement', 'zipeCode'];
 
     public static function boot()
     {
         parent::boot();
 
-        static::addGlobalScope('ordeByStreet', function(Builder $builder) {
-            $builder->orderBy('street', 'desc');
+        static::addGlobalScope('ordeByRua', function(Builder $builder) {
+            $builder->orderBy('rua', 'desc');
         });
     }
 

@@ -1,10 +1,10 @@
 @extends('adminlte::page')
 
-@section('title', "Detalhes do endereço {$address->street}")
+@section('title', "Detalhes do endereço {$address->rua}")
 
 @section('content_header')
     <h1>
-        Endereço: {{ $address->street }}
+        Endereço: {{ $address->rua }}
     </h1>
 
     <ol class="breadcrumb">
@@ -20,7 +20,7 @@
         <div class="box box-success">
             <div class="box-body">
                 <p><strong>ID: </strong>{{ $address->id }}</p>
-                <p><strong>Rua: </strong>{{ $address->street }}</p>
+                <p><strong>Rua: </strong>{{ $address->rua }}</p>
                 <p><strong>URL: </strong>{{ $address->url }}</p>
                 <p><strong>Bairro: </strong>{{ $address->neighborhood }}</p>
                 <p><strong>CEP: </strong>{{ $address->zipeCode }}</p>

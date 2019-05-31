@@ -24,10 +24,7 @@ class AddressController extends Controller
      */
     public function index()
     {
-        $addresses =  $this->repository
-                                    ->orderBy('id')
-                                    ->relationships('address', 'city', 'state')
-                                    ->paginate();
+        $addresses = $this->repository->orderBy('id')->relationships('city', 'state')->paginate();
 
         return view('admin.addresses.index', compact('addresses'));
     }
