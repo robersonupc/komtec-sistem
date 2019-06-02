@@ -24,11 +24,11 @@
       <div class="box-body">
       <form action="{{ route('cfops.search') }}" class="form form-inline" method="POST">
         @csrf
-        <input type="text" name="codigo" placeholder="Código" class="form-control" value="{{ $data['codigo'] ?? '' }}">        
+        <input type="text" name="code" placeholder="Código" class="form-control" value="{{ $data['code'] ?? '' }}">        
         <input type="text" name="description" placeholder="Descrição" class="form-control" value="{{ $data['description'] ?? '' }}">
         <input type="text" name="ent_sai" placeholder="Ent_Sai" class="form-control" value="{{ $data['ent_sai'] ?? '' }}">
-        <input type="text" name="operacao" placeholder="Operação" class="form-control" value="{{ $data['operacao'] ?? '' }}">
-        <input type="text" name="url" placeholder="URL" class="form-control" value="{{ $data['url'] ?? '' }}">
+        <input type="text" name="operacao" placeholder="Operação" class="form-control" value="{{ $data['operacao'] ?? '' }}">        
+        <input type="text" name="numseq" placeholder="NumSeq" class="form-control" value="{{ $data['numseq'] ?? '' }}">
         <button type="submit" class="btn btn-success">Pesquisar</button>
       </form>
 
@@ -61,7 +61,7 @@
                         @foreach ($cfops as $cfop)
                       <tr>
                         <th scope="row">{{ $cfop->id }}</th>
-                        <td>{{ $cfop->codigo }}</td>
+                        <td>{{ $cfop->code }}</td>
                         <td>{{ $cfop->numseq }}</td>
                         <td>{{ $cfop->description }}</td>
                         <td>{{ $cfop->ent_sai }}</td>

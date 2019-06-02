@@ -24,7 +24,7 @@ class NcmController extends Controller
      */
     public function index()
     {
-        $ncm = $this->repository->orderBy('id')->paginate();
+        $ncms = $this->repository->orderBy('code', 'DESC')->paginate(5);
 
         return view('admin.ncms.index', compact('ncms'));
     }

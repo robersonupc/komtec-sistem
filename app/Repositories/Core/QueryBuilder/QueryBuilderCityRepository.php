@@ -12,19 +12,18 @@ class QueryBuilderCityRepository extends BaseQueryBuilderRepository implements C
     public function search(array $data)
     {
         return $this->db
-                        ->table($this->tb)
-                        ->where(function ($query) use ($data) {
-                            if (isset($data['title'])) {
-                                $query->where('title', $data['title']);
-                            }
+                    ->table($this->tb)
+                    ->where(function ($query) use ($data) {
+                        if (isset($data['title'])) {
+                            $query->where('title', $data['title']);
+                        }
 
-                            if (isset($data['url'])) {
-                                $query->orWhere('url', $data['url']);
-                            }
-                           
-                        })
-                        ->orderBy('id', 'desc')
-                        ->paginate();
+                        if (isset($data['url'])) {
+                            $query->orWhere('url', $data['url']);
+                        }
+                    })
+                    ->orderBy('id', 'desc')
+                    ->paginate();
     }
 
     public function store(array $data)
@@ -47,16 +46,8 @@ class QueryBuilderCityRepository extends BaseQueryBuilderRepository implements C
     public function addressesByCityId($id)
     {
         return $this->db
-                        ->table('cities')
+                        ->table('addresses')
                         ->where('city_id', $id)
-                        ->get();
-    }
-
-    public function addressesByStateId($id)
-    {
-        return $this->db
-                        ->table('states')
-                        ->where('state_id', $id)
                         ->get();
     }
 

@@ -14,35 +14,22 @@ class QueryBuilderAddressRepository extends BaseQueryBuilderRepository implement
         return $this->db
                         ->table($this->tb)
                         ->where(function ($query) use ($data) {
-                            
-                            if (isset($data['rua'])) {
-                                $query->where('rua', $data['rua']);
+                            if (isset($data['street'])) {
+                                $query->where('street', $data['street']);
                             }
 
                             if (isset($data['zipeCode'])) {
-                                $desc = $data['zipeCode'];
-                                $query->where('zipeCode', 'LIKE', "%{$desc}%");
+                                $query->orWhere('zipeCode', $data['zipeCode']);
+                            }
+
+                            if (isset($data['neighborhood'])) {
+                                $desc = $data['neighborhood'];
+                                $query->where('neighborhood', 'LIKE', "%{$desc}%");
                             }
                         })
                         ->orderBy('id', 'desc')
-                        ->paginate();
+                        ->paginate(5);
     }
 
-    public function store(array $data)
-    {
-        $data['url'] = kebab_case($data['rua']);
-
-        return $this->db->table($this->tb)
-                    ->insert($data);
-    }
-
-    public function update($id, array $data)
-    {
-        $data['url'] = kebab_case($data['rua']);
-        
-        return $this->db->table($this->tb)
-                    ->where('id', $id)
-                    ->update($data);
-    }
-
+    
 }

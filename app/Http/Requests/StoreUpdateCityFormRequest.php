@@ -24,8 +24,7 @@ class StoreUpdateCityFormRequest extends FormRequest
     {
         $id = $this->segment(3);
         return [
-            'title'         => "required|min:3|max:60|unique:cities,title,{$id},id",
-            'url'           => "required|min:3|max:60|unique:cities,url,{$id},id",
+            'title' => "required|min:3|max:60|unique:cities,title,{$id},id",
         ];
     }
 }

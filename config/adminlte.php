@@ -110,18 +110,23 @@ return [
     'menu' => [
         'CADASTROS',
         [
-            'text' => 'Usuários',
-            'url'  => 'admin/users',
-            'icon'        => 'users',
+            'text' => 'Dashboard',
+            'url'  => 'admin',
+            'icon' => 'tachometer',
         ],
         [
-            'text'        => 'Cadastros',
-            'icon'        => 'area-chart',
+            'text' => 'Usuários',
+            'url'  => 'admin/users',
+            'icon' => 'users',
+        ],
+        [
+            'text'    => 'Cadastros',
+            'icon'    => 'area-chart',
             'submenu' => [
                 [
                     'text' => 'Categorias',
                     'url'  => 'admin/categories',
-                    'icon'        => 'object-group',
+                    'icon' => 'object-group',
                 ],
                 [
                     'text' => 'Marcas',
@@ -139,42 +144,42 @@ return [
                     'icon'        => 'object-group',
                 ],
                 [
+                    'text'   => 'Produtos',
+                    'url'    => 'admin/products',
+                    'icon'   => 'tasks',
+                ],
+                [
                     'text' => 'Forma de Pgtos',
                     'url'  => 'admin/formapgtos',
-                    'icon'        => 'object-group',
+                    'icon' => 'object-group',
                 ],                
             ]
         ],       
         [
-            'text'        => 'Endereços',
-            'icon'        => 'area-chart',
+            'text'    => 'Endereços',
+            'icon'    => 'area-chart',
             'submenu' => [
                 [
-                    'text'        => 'Endereços',
-                    'url'         => 'admin/addresses',
-                    'icon'        => 'tasks',
+                    'text' => 'Endereços',
+                    'url'  => 'admin/addresses',
+                    'icon' => 'tasks',
                 ],
                 [
-                    'text'        => 'Cidades',
-                    'url'         => 'admin/cities',
-                    'icon'        => 'tasks',
+                    'text' => 'Cidades',
+                    'url'  => 'admin/cities',
+                    'icon' => 'tasks',
                 ],
                 [
-                    'text'        => 'Estados',
-                    'url'         => 'admin/states',
-                    'icon'        => 'tasks',
+                    'text' => 'Estados',
+                    'url'  => 'admin/states',
+                    'icon' => 'tasks',
                 ],
             ]
         ],
         [
-            'text'        => 'Compras',
-            'icon'        => 'area-chart',
+            'text'    => 'Compras',
+            'icon'    => 'cart-plus',
             'submenu' => [
-                [
-                    'text'        => 'Produtos',
-                    'url'         => 'admin/products',
-                    'icon'        => 'tasks',
-                ],
                 [
                     'text'        => 'Fornecedores',
                     'url'         => 'admin/providers',
@@ -183,8 +188,8 @@ return [
                 
                 [
                     'text'        => 'Compras',
-                    'url'         => 'admin/shopping',
-                    'icon'        => 'tasks',
+                    'url'         => 'admin/purchase',
+                    'icon'        => 'shopping-cart',
                 ],
                 [
                     'text'        => 'Orçamentos',
@@ -195,13 +200,8 @@ return [
         ],
         [
             'text'        => 'Vendas',
-            'icon'        => 'area-chart',
+            'icon'        => 'cart-plus',
             'submenu' => [
-                [
-                    'text'        => 'Produtos',
-                    'url'         => 'admin/products',
-                    'icon'        => 'tasks',
-                ],
                 [
                     'text'        => 'Clientes',
                     'url'         => 'admin/clients',
@@ -211,7 +211,7 @@ return [
                 [
                     'text'        => 'Vendas',
                     'url'         => 'admin/resale',
-                    'icon'        => 'tasks',
+                    'icon'        => 'cart-plus',
                 ],
                 [
                     'text'        => 'Orçamentos',
@@ -227,17 +227,17 @@ return [
                 [
                     'text'        => 'ICMS',
                     'url'         => 'admin/icmss',
-                    'icon'        => 'line-chart',
+                    'icon'        => 'tasks',
                 ],
                 [
                     'text'        => 'IPI',
                     'url'         => 'admin/ipis',
-                    'icon'        => 'pie-chart',
+                    'icon'        => 'tasks',
                 ],
                 [
                     'text'        => 'COFINS',
                     'url'         => 'admin/cofinss',
-                    'icon'        => 'bar-chart',
+                    'icon'        => 'tasks',
                 ],
             ]
         ], 

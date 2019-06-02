@@ -24,9 +24,10 @@
 
                 <form action="{{ route('formapgtos.update', $formapgto->id) }}" class="form" method="POST">
                    
-                    <input type="hidden" name="_method" value="PUT">
-
-                    @include('admin.formapgtos._partials.form')
+                    {{ Form::model($formapgto, ['route' => ['formapgtos.update', $formapgto->id], 'class' => 'form']) }}
+                        @method('PUT')
+                        @include('admin.formapgtos._partials.form')
+                    {{ Form::close() }}
                 </form>
             </div>
         </div>

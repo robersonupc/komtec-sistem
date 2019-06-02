@@ -2,14 +2,22 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\StoreUpdateFormapgtoFormRequest;
-use DB;
-use App\Models\FormaPgmento;
+use App\Http\Requests\StoreUpdateFormaPgtoFormRequest;
+use App\Repositories\Contracts\FormaPgtoRepositoryInterface;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class FomaPgtoController extends Controller
+class FormaPgtoController extends Controller
 {
+
+    protected $repository;
+
+    public function __construct(FormaPgtoRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,9 +25,7 @@ class FomaPgtoController extends Controller
      */
     public function index()
     {
-        $formapgtos = DB::table('formapgtos')
-            ->orderBy('id', 'desc')
-            ->paginate(5);
+        $formapgtos = $this->repository->orderBy('id')->paginate(5);
 
         return view('admin.formapgtos.index', compact('formapgtos'));
     }
@@ -37,17 +43,16 @@ class FomaPgtoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\StoreUpdateFormapgtoFormRequest  $request
+     * @param  \Illuminate\Http\StoreUpdateFormaPgtoFormRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreUpdateFormapgtoFormRequest $request)
+    public function store(StoreUpdateFormaPgtoFormRequest $request)
     {
-        DB::table('formapgtos')->insert([
+        $this->repository->store([
             'description'       => $request->description,
             'parcela'           => $request->parcela,
             'prazoinicial'      => $request->prazoinicial,
             'diasentreparcelas' => $request->diasentreparcelas,
-            'url'               => $request->url,
         ]);
 
         return redirect()
@@ -63,7 +68,7 @@ class FomaPgtoController extends Controller
      */
     public function show($id)
     {
-        $formapgto = DB::table('formapgtos')->where('id', $id)->first();
+        $formapgto = $this->repository->findById($id);
 
         if (!$formapgto)        
              return redirect()->back();
@@ -79,9 +84,7 @@ class FomaPgtoController extends Controller
      */
     public function edit($id)
     {
-        $formapgto = DB::table('formapgtos')->where('id', $id)->first();
-        
-        if (!$formapgto)
+        if (!$formapgto = $this->repository->findById($id))
             return redirect()->back();
 
         return view('admin.formapgtos.edit', compact('formapgto'));
@@ -90,21 +93,19 @@ class FomaPgtoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\StoreUpdateFormapgtoFormRequest  $request
+     * @param  \Illuminate\Http\StoreUpdateFormaPgtoFormRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreUpdateFormapgtoFormRequest $request, $id)
+    public function update(StoreUpdateFormaPgtoFormRequest $request, $id)
     {
-        DB::table('formapgtos')
-                    ->where('id', $id)
-                    ->update([
-            'description'       => $request->description,
-            'parcela'           => $request->parcela,
-            'prazoinicial'      => $request->prazoinicial,
-            'diasentreparcelas' => $request->diasentreparcelas,
-            'url'               => $request->url,
-            ]);
+        $this->repository
+            ->update($id, [
+                'description'       => $request->description,
+                'parcela'           => $request->parcela,
+                'prazoinicial'      => $request->prazoinicial,
+                'diasentreparcelas' => $request->diasentreparcelas,
+                ]);
 
         return redirect()
             ->route('formapgtos.index')
@@ -119,7 +120,7 @@ class FomaPgtoController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('formapgtos')->where('id', $id)->delete();
+        $this->repository->delete($id);
 
         return redirect()->route('formapgtos.index');
     }
@@ -127,31 +128,8 @@ class FomaPgtoController extends Controller
     public function search(Request $request)
     {
         $data = $request->except('_token');
-        /**
-        $formapgtos = DB::table('formapgtos')
-            ->where('description', $search)
-            ->orWhere('url', $search)
-            ->orWhere('diasentreparcelas', 'LIKE', "%$search%")
-            ->get();
-        */
 
-        $formapgtos = DB::table('formapgtos')
-        ->where(function($query) use($data) {
-            if(isset($data['description'])){
-                $query->where('description', $data['description']);
-            }
-            
-            if(isset($data['url'])){
-                $query->orWhere('url', $data['url']);
-            }
-
-            if(isset($data['diasentreparcelas'])){
-                $desc = $data['diasentreparcelas'];
-                $query->orWhere('diasentreparcelas', 'LIKE', "%{$desc}%");
-            }
-        })
-        ->orderBy('id', 'desc')
-        ->get();
+        $formapgtos = $this->repository->search($data);
 
         return view('admin.formapgtos.index', compact('formapgtos', 'data')); 
     }

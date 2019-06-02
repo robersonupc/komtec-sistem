@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Repositories\Contracts\AddressRepositoryInterface;
 use App\Http\Requests\StoreUpdateAddressFormRequest;
-
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
 
 class AddressController extends Controller
 {
@@ -16,7 +16,6 @@ class AddressController extends Controller
     {
         $this->repository = $repository;
     }
-
     /**
      * Display a listing of the resource.
      *
@@ -25,8 +24,9 @@ class AddressController extends Controller
     public function index()
     {
         $addresses = $this->repository->orderBy('id')->relationships('city', 'state')->paginate();
-
+        
         return view('admin.addresses.index', compact('addresses'));
+
     }
 
     /**
@@ -35,8 +35,7 @@ class AddressController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {  
-
+    {
         return view('admin.addresses.create', compact('address', 'cities', 'states'));
     }
 
@@ -49,10 +48,10 @@ class AddressController extends Controller
     public function store(StoreUpdateAddressFormRequest $request)
     {
         $address = $this->repository->store($request->all());
-    
-            return redirect()
-                ->route('addresses.index')
-                ->withSuccess('Cadastro realizado com sucesso');
+
+        return redirect()
+            ->route('addresses.index')
+            ->withSuccess('Cadastro realizado com sucesso');
     }
 
     /**
@@ -63,12 +62,12 @@ class AddressController extends Controller
      */
     public function show($id)
     {
-        $address = $this->repository->findWhereFirst('id', $id);
+       $address = $this->repository->findWhereFirst('id', $id);
 
         if (!$address)        
-        return redirect()->back();
+            return redirect()->back();
 
-        return view('admin.addresses.show', compact('address', 'cities', 'states'));
+        return view('admin.addresses.show', compact('address'));
     }
 
     /**
@@ -97,8 +96,8 @@ class AddressController extends Controller
         $this->repository->update($id, $request->all());
 
         return redirect()
-        ->route('addresses.index')
-        ->withSuccess('Cadastro atualizado com sucesso');
+            ->route('addresses.index')
+            ->withSuccess('Cadastro atualizado com sucesso');
     }
 
     /**
@@ -111,7 +110,9 @@ class AddressController extends Controller
     {
         $this->repository->delete($id);
 
-        return redirect()->route('addresses.index');
+        return redirect()
+                    ->route('addresses.index')
+                    ->withSuccess('Endereço deletado com sucesso!');
     }
 
     public function search(Request $request)
@@ -120,6 +121,7 @@ class AddressController extends Controller
 
         $addresses = $this->repository->search($request);
 
-        return view('admin.addresses.index', compact('addresses', 'data')); 
+        return view('admin.addresses.index', compact('addresses', 'filters')); 
     }
+    
 }

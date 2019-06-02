@@ -6,7 +6,6 @@ use App\Repositories\Contracts\ProductRepositoryInterface;
 use App\Http\Requests\StoreUpdateProductFormRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Response;
 
 class ProductController extends Controller
 {

@@ -17,16 +17,17 @@
 
 @section('content')
     <div class="content row">
-        <div class="box box-success">
+        <div class="box box-primary">
             <div class="box-body">
 
                 @include('admin.includes.alerts')
 
                 <form action="{{ route('states.update', $state->id) }}" class="form" method="POST">
                    
-                    <input type="hidden" name="_method" value="PUT">
-
-                    @include('admin.states._partials.form')
+                    {{ Form::model($state, ['route' => ['states.update', $state->id], 'class' => 'form']) }}
+                        @method('PUT')
+                        @include('admin.states._partials.form')
+                    {{ Form::close() }}
                 </form>
             </div>
         </div>

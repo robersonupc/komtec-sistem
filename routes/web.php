@@ -1,51 +1,53 @@
 <?php
 
-Route::any('admin/ncms/search', 'Admin\NcmController@search')->name('ncms.search');
-Route::resource('admin/ncms', 'Admin\NcmController');
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function () {
 
-Route::any('admin/cfops/search', 'Admin\CfopController@search')->name('cfops.search');
-Route::resource('admin/cfops', 'Admin\CfopController');
+    Route::any('providers/search', 'ProviderController@search')->name('providers.search');
+    Route::resource('providers', 'ProviderController');
 
-//$this->any('admin/products/search', 'Admin\ProductController@search')->name('products.search');
-//$this->resource('admin/products', 'Admin\ProductController');
-Route::any('admin/products/search', 'Admin\ProductController@search')->name('products.search');
-Route::resource('admin/products', 'Admin\ProductController');
+    Route::any('ncms/search', 'NcmController@search')->name('ncms.search');
+    Route::resource('ncms', 'NcmController');
 
-Route::any('admin/clients/search', 'Admin\ClientController@search')->name('clients.search');
-Route::resource('admin/clients', 'Admin\ClientController');
+    Route::any('cfops/search', 'CfopController@search')->name('cfops.search');
+    Route::resource('cfops', 'CfopController');
 
-Route::any('admin/states/search', 'Admin\StateController@search')->name('states.search');
-Route::resource('admin/states', 'Admin\StateController');
+    Route::any('products/search', 'ProductController@search')->name('products.search');
+    Route::resource('products', 'ProductController');
 
-Route::any('admin/cities/search', 'Admin\CityController@search')->name('cities.search');
-Route::resource('admin/cities', 'Admin\CityController');
+    Route::any('clients/search', 'ClientController@search')->name('clients.search');
+    Route::resource('clients', 'ClientController');
 
-Route::any('admin/addresses/search', 'Admin\AddressController@search')->name('addresses.search');
-Route::resource('admin/addresses', 'Admin\AddressController');
+    Route::any('states/search', 'StateController@search')->name('states.search');
+    Route::resource('states', 'StateController');
 
-Route::get('admin', function() {
+    Route::any('cities/search', 'CityController@search')->name('cities.search');
+    Route::resource('cities', 'CityController');
 
-})->name('admin');
+    Route::any('addresses/search', 'AddressController@search')->name('addresses.search');
+    Route::resource('addresses', 'AddressController');
 
-Route::any('admin/formapgtos/search', 'Admin\FomaPgtoController@search')->name('formapgtos.search');
-Route::resource('admin/formapgtos', 'Admin\FomaPgtoController');
+    Route::any('formapgtos/search', 'FormaPgtoController@search')->name('formapgtos.search');
+    Route::resource('formapgtos', 'FormaPgtoController');
 
-Route::any('admin/icmss/search', 'Admin\ICMSController@search')->name('icmss.search');
-Route::resource('admin/icmss', 'Admin\ICMSController');
+    Route::any('icmss/search', 'ICMSController@search')->name('icmss.search');
+    Route::resource('icmss', 'ICMSController');
 
-Route::any('admin/categories/search', 'Admin\CategoryController@search')->name('categories.search');
-Route::resource('admin/categories', 'Admin\CategoryController');
+    Route::any('categories/search', 'CategoryController@search')->name('categories.search');
+    Route::resource('categories', 'CategoryController');
 
-Route::any('admin/brands/search', 'Admin\BrandController@search')->name('brands.search');
-Route::resource('admin/brands', 'Admin\BrandController');
+    Route::any('brands/search', 'BrandController@search')->name('brands.search');
+    Route::resource('brands', 'BrandController');
 
-Route::any('admin/users/search', 'Admin\UserController@search')->name('users.search');
-Route::resource('admin/users', 'Admin\UserController');
+    Route::any('users/search', 'UserController@search')->name('users.search');
+    Route::resource('users', 'UserController');
+
+    Route::get('/', 'DashboardController@index')->name('admin');
+
+});
+
+Auth::routes(['register' => false]);
 
 Route::get('/', function() {
     return view('welcome');
 });
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

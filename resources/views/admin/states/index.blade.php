@@ -26,7 +26,7 @@
         @csrf
       <input type="text" name="title" placeholder="Título" class="form-control" value="{{ $data['title'] ?? '' }}">
         <input type="text" name="url" placeholder="URL" class="form-control" value="{{ $data['url'] ?? '' }}">
-        <input type="text" name="uf" placeholder="Descrição" class="form-control" value="{{ $data['uf'] ?? '' }}">
+        <input type="text" name="uf" placeholder="UF" class="form-control" value="{{ $data['uf'] ?? '' }}">
         <button type="submit" class="btn btn-success">Pesquisar</button>
       </form>
 

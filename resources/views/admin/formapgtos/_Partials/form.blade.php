@@ -1,18 +1,14 @@
-@csrf
 <div class="form-group">
-    <input type="text" value="{{ $formapgto->description ?? old('description') }}" name="description" class="form-control" placeholder="Descrição">
+    {{ Form::text('description', null, ['placeholder' => 'Descrição', 'class' => 'form-control']) }}
 </div>
 <div class="form-group">
-    <input type="text" value="{{ $formapgto->parcela ?? old('parcela') }}" name="parcela" class="form-control" placeholder="Qtde Parcelas">
+    {{ Form::text('parcela', null, ['placeholder' => 'Parcela', 'class' => 'form-control']) }}
 </div>
 <div class="form-group">
-    <input type="text" value="{{ $formapgto->prazoinicial ?? old('prazoinicial') }}" name="prazoinicial" class="form-control" placeholder="Prazo Inicial">
+    {{ Form::text('prazoinicial', null, ['placeholder' => 'Prazo Inicial', 'class' => 'form-control']) }}
 </div>
 <div class="form-group">
-    <input type="text" value="{{ $formapgto->diasentreparcelas ?? old('diasentreparcelas') }}" name="diasentreparcelas" class="form-control" placeholder="Dias Entre Parcelas">
-</div>
-<div class="form-group">
-    <input type="text" value="{{ $formapgto->url ?? old('url') }}" name="url" class="form-control" placeholder="URL">
+    {{ Form::text('diasentreparcelas', null, ['placeholder' => 'Dias Entre Parcelas', 'class' => 'form-control']) }}
 </div>
 <div class="form-group">
     <button type="submit" class="btn btn-success">Salvar</button>

@@ -14,9 +14,9 @@ class BaseEloquentRepository implements RepositoryInterface
         $this->entity = $this->resolveEntity();
     }
 
-    public function getAll($id)
+    public function getAll()
     {
-        return $this->entity->get($id);
+        return $this->entity->get();
     }
 
     public function findById($id)

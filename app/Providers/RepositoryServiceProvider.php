@@ -8,10 +8,10 @@ use App\Repositories\Contracts\{
     NcmRepositoryInterface,
     BrandRepositoryInterface,
     AddressRepositoryInterface,
-    CitytRepositoryInterface,
-    StatetRepositoryInterface,
+    CityRepositoryInterface,
+    StateRepositoryInterface,
     CfopRepositoryInterface,
-    FomaPgtoRepositoryInterface,
+    FormaPgtoRepositoryInterface,
     ProviderRepositoryInterface,
     SaleRepositoryInterface,
     BudgetRepositoryInterface,
@@ -29,7 +29,7 @@ use App\Repositories\Core\Eloquent\{
     EloquentCityRepository,
     EloquentStateRepository,
     EloquentCfopRepository,
-    EloquentFomaPgtoRepository,
+    EloquentFormaPgtoRepository,
     EloquentProviderRepository,
     EloquentSaleRepository,
     EloquentBudgetRepository,
@@ -46,7 +46,7 @@ use App\Repositories\Core\QueryBuilder\{
     QueryBuilderCityRepository,
     QueryBuilderStateRepository,
     QueryBuilderCfopRepository,
-    QueryBuilderFomaPgtoRepository,
+    QueryBuilderFormaPgtoRepository,
     QueryBuilderProviderRepository,
     QueryBuilderSaleRepository,
     QueryBuilderBudgetRepository,
@@ -67,15 +67,15 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(
+        $this->app->bind(//Produto
             ProductRepositoryInterface::class,
             EloquentProductRepository::class        
         );
 
-        $this->app->bind(
+        $this->app->bind(//Categoria
             CategoryRepositoryInterface::class,
-            //QueryBuilderCategoryRepository::class
-            EloquentCategoryRepository::class
+            QueryBuilderCategoryRepository::class
+            //EloquentCategoryRepository::class
         );
 
         $this->app->bind(//grafico
@@ -85,14 +85,14 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(//marca ou fabricante
             BrandRepositoryInterface::class,
-            //QueryBuilderBrandRepository::class
-            EloquentBrandRepository::class
+            QueryBuilderBrandRepository::class
+            //EloquentBrandRepository::class
         );
 
-        $this->app->bind(
+        $this->app->bind(//NCM
             NcmRepositoryInterface::class,
-            //QueryBuilderNcmRepository::class
-            EloquentNcmRepository::class
+            QueryBuilderNcmRepository::class
+            //EloquentNcmRepository::class
         );
 
         $this->app->bind(//cidade
@@ -113,16 +113,16 @@ class RepositoryServiceProvider extends ServiceProvider
             //QueryBuilderAddressRepository::class
         );
 
-        $this->app->bind(
+        $this->app->bind(//CFOP
             CfopRepositoryInterface::class,
             QueryBuilderCfopRepository::class
             //EloquentCfopRepository::class
         );
 
         $this->app->bind(//forma de pagamento
-            FomaPgtoRepositoryInterface::class,
-            QueryBuilderFomaPgtoRepository::class
-            //EloquentFomaPgtoRepository::class
+            FormaPgtoRepositoryInterface::class,
+            QueryBuilderFormaPgtoRepository::class
+            //EloquentFormaPgtoRepository::class
         );
 
         $this->app->bind(//fornecedor

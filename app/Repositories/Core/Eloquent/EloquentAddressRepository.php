@@ -19,11 +19,11 @@ class EloquentAddressRepository extends BaseEloquentRepository implements Addres
         return $this->entity
                             ->where(function($query) use ($request) {
                                 
-                                if($request->rua) {
-                                    $filter = $request->rua;
+                                if($request->street) {
+                                    $filter = $request->street;
                                     $query->where(function($querySub) use ($filter) {
-                                        $querySub->where('rua', 'LIKE', "%{$filter}%")
-                                                        ->orWhere('zipeCode', 'LIKE', "%{$filter}%");
+                                        $querySub->where('street', 'LIKE', "%{$filter}%")
+                                                        ->orWhere('neighborhood', 'LIKE', "%{$filter}%");
                                     });
                                     
                                 }
@@ -35,13 +35,26 @@ class EloquentAddressRepository extends BaseEloquentRepository implements Addres
                                     });
                                     
                                 }
+
+                                if($request->complement) {
+                                    $filter = $request->complement;
+                                    $query->where(function($querySub) use ($filter) {
+                                        $querySub->where('complement', 'LIKE', "%{$filter}%")
+                                                        ->orWhere('complement', 'LIKE', "%{$filter}%");
+                                    });
+                                    
+                                }
+                                
                                 if($request->city) {
                                     $query->orWhere('city_id', $request->city);
                                 }
                                 if($request->state) {
                                     $query->orWhere('state_id', $request->state);
                                 }
+                               
                         })
                         ->paginate(5);
     }
+
+    
 }

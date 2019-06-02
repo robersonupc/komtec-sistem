@@ -28,9 +28,11 @@
                 <form action="{{ route('cities.destroy', $city->id) }}" class="form" method="POST">
                     @csrf
 
-                    <input type="hidden" name="_method" value="DELETE">
+                    @method('DELETE')
 
-                    <button type="submit" class="btn btn-danger">Deletar</button>
+                    <button type="submit" class="btn btn-danger">
+                        Deletar o cidade {{ $city->title }}
+                    </button>
                 </form>
 
             </div>

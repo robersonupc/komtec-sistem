@@ -20,7 +20,7 @@
         <div class="box box-success">
             <div class="box-body">
                 <p><strong>ID: </strong>{{ $cfop->id }}</p>
-                <p><strong>Código: </strong>{{ $cfop->codigo }}</p>
+                <p><strong>Código: </strong>{{ $cfop->code }}</p>
                 <p><strong>Num_Seq: </strong>{{ $cfop->numseq }}</p>
                 <p><strong>Descrição: </strong>{{ $cfop->description }}</p>
                 <p><strong>Ent_Sai: </strong>{{ $cfop->ent_sai }}</p>
@@ -32,9 +32,11 @@
                 <form action="{{ route('cfops.destroy', $cfop->id) }}" class="form" method="POST">
                     @csrf
 
-                    <input type="hidden" name="_method" value="DELETE">
+                    @method('DELETE')
 
-                    <button type="submit" class="btn btn-danger">Deletar</button>
+                    <button type="submit" class="btn btn-danger">
+                        Deletar o CFOP {{ $cfop->code }}
+                    </button>
                 </form>
 
             </div>

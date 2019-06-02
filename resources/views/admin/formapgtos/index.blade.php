@@ -24,9 +24,10 @@
       <div class="box-body">
       <form action="{{ route('formapgtos.search') }}" class="form form-inline" method="POST">
         @csrf
-      <input type="text" name="description" placeholder="Título" class="form-control" value="{{ $data['description'] ?? '' }}">
-        <input type="text" name="url" placeholder="URL" class="form-control" value="{{ $data['url'] ?? '' }}">
+      <input type="text" name="description" placeholder="escrição" class="form-control" value="{{ $data['description'] ?? '' }}">
+        <input type="text" name="prazoinicial" placeholder="Prazo Inicial" class="form-control" value="{{ $data['prazoinicial'] ?? '' }}">
         <input type="text" name="parcela" placeholder="Parcelas" class="form-control" value="{{ $data['parcela'] ?? '' }}">
+        <input type="text" name="diasentreparcelas" placeholder="Dias Entre Parcelas" class="form-control" value="{{ $data['diasentreparcelas'] ?? '' }}">
         <button type="submit" class="btn btn-success">Pesquisar</button>
       </form>
 
@@ -49,6 +50,7 @@
                         <th scope="col">Parcelas</th>
                         <th scope="col">Prazo Inicial</th>
                         <th scope="col">Dias Entre Parcelas</th>
+                        <th scope="col">URL</th>
                         <th width="130px" scope="col">Ações</th>
                       </tr>
                     </thead>
@@ -60,6 +62,7 @@
                         <td>{{ $formapgto->parcela }}</td>
                         <td>{{ $formapgto->prazoinicial }}</td>
                         <td>{{ $formapgto->diasentreparcelas }}</td>
+                        <td>{{ $formapgto->url }}</td>
                         <td>
                             <a href="{{ route('formapgtos.edit', $formapgto->id) }}" class="badge bg-yellow">
                              Editar

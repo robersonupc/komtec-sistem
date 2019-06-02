@@ -24,13 +24,11 @@ class StoreUpdateCfopFormRequest extends FormRequest
     {
         $id = $this->segment(3);
         return [
-            'codigo'         => "required",
+            'code'           => "required",
             'numseq'         => "required",
             'description'    => "required|min:3|max:60,cfops,description,{$id},id",
             'ent_sai'        => "required",
             'operacao'       => "required",
-            'descr_int'      => "",
-            'url'            => "required|min:3|max:60|unique:cfops,url,{$id},id",
         ];
     }
 }

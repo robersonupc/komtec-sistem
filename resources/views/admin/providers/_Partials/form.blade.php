@@ -17,7 +17,7 @@
     {{ Form::text('zipeCode', null, ['placeholder' => 'CEP', 'class' => 'form-control']) }}
 </div>
 <div class="form-group">    
-    {{ Form::select('city_id', $cities, null, ['class' => 'form-control']) }}
+    {{ Form::select('address_id', $addresses, null, ['class' => 'form-control']) }}
 </div>
 <div class="form-group">
         {{ Form::select('state_id', $states, null, ['class' => 'form-control']) }}

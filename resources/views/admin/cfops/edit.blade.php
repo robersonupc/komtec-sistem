@@ -22,12 +22,10 @@
 
                 @include('admin.includes.alerts')
 
-                <form action="{{ route('cfops.update', $cfop->id) }}" class="form" method="POST">
-                   
-                    <input type="hidden" name="_method" value="PUT">
-
+                {{ Form::model($cfop, ['route' => ['cfops.update', $cfop->id], 'class' => 'form']) }}
+                    @method('PUT')
                     @include('admin.cfops._partials.form')
-                </form>
+                {{ Form::close() }}
             </div>
         </div>
     </div>

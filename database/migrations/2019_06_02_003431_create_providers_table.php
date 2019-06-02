@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCFOPSTable extends Migration
+class CreateProvidersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,9 @@ class CreateCFOPSTable extends Migration
      */
     public function up()
     {
-        Schema::create('cfops', function (Blueprint $table) {
+        Schema::create('providers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('codigo');
-            $table->integer('numseq');
-            $table->string('description');
-            $table->string('ent_sai', 1);
-            $table->string('operacao', 1);
-            $table->string('descr_int')->nullable();
-            $table->string('url')->unique();
+            $table->boolean('');
             $table->timestamps();
         });
     }
@@ -33,6 +27,6 @@ class CreateCFOPSTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cfops');
+        Schema::dropIfExists('providers');
     }
 }

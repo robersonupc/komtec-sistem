@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Http\Controllers\Admin\StateController;
+use App\Http\Controllers\Admin\ProviderController;
 
-class StoreUpdateStateFormRequest extends FormRequest
+class StoreUpdateProviderFormRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,9 @@ class StoreUpdateStateFormRequest extends FormRequest
     public function rules()
     {
         $id = $this->segment(3);
+        
         return [
-            'title'         => "required|min:3|max:60|unique:states,title,{$id},id",
-            'uf'            => "required|min:2|max:2|unique:states,uf,{$id},id",
+            //
         ];
     }
 }

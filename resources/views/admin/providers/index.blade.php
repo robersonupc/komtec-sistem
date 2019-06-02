@@ -1,18 +1,18 @@
 @extends('adminlte::page')
 
-@section('title', 'Admin | Endereços')
+@section('title', 'Admin | Fornecedores')
 
 @section('content_header')
     <h1>
-    <a href="{{ route('addresses.create') }}" class="btn btn-success btn-add">
+    <a href="{{ route('providers.create') }}" class="btn btn-success btn-add">
       <span class="glyphicon glyphicon-plus"></span>    
     </a>
-      Endereços
+      Fornecedores
     </h1>
     
     <ol class="breadcrumb">
         <li><a href="{{ route('home') }}">Dashboard</a></li>
-        <li><a href="{{ route('addresses.index') }}" class="active">Endereços</a></li>
+        <li><a href="{{ route('providers.index') }}" class="active">Fornecedores</a></li>
     </ol>
     
 @stop
@@ -22,7 +22,7 @@
 
     <div class="box box-primary">
       <div class="box-body">
-      <form action="{{ route('addresses.search') }}" class="form form-inline" method="POST">
+      <form action="{{ route('providers.search') }}" class="form form-inline" method="POST">
         @csrf
         <input type="text" name="street" placeholder="Rua" class="form-control" value="{{ $data['street'] ?? '' }}">
         <input type="text" name="complement" placeholder="Complemento" class="form-control" value="{{ $data['complement'] ?? '' }}">
@@ -31,7 +31,7 @@
       </form>
 
       @if (isset($data))
-        <a href="{{ route('addresses.index') }}">(X) Limpar Pesquisa</a>
+        <a href="{{ route('providers.index') }}">(X) Limpar Pesquisa</a>
       @endif
 
       </div>
@@ -57,22 +57,22 @@
                       </tr>
                     </thead>
                     <tbody>
-                        @foreach ($addresses as $address)
+                        @foreach ($providers as $provider)
                       <tr>
-                        <th scope="row">{{ $address->id }}</th>
-                        <td>{{ $address->street }}</td>
-                        <td>{{ $address->number }}</td>
-                        <td>{{ $address->neighborhood }}</td>                        
-                        <td>{{ $address->zipeCode }}</td>
-                        <td>{{ $address->complement }}</td>
-                        <td>{{ $address->city->title }}</td>
-                        <td>{{ $address->state->uf }}</td>
-                        <td>{{ $address->url }}</td>
+                        <th scope="row">{{ $provider->id }}</th>
+                        <td>{{ $provider->street }}</td>
+                        <td>{{ $provider->number }}</td>
+                        <td>{{ $provider->neighborhood }}</td>                        
+                        <td>{{ $provider->zipeCode }}</td>
+                        <td>{{ $provider->complement }}</td>
+                        <td>{{ $provider->city->title }}</td>
+                        <td>{{ $provider->state->uf }}</td>
+                        <td>{{ $provider->url }}</td>
                         <td>
-                            <a href="{{ route('addresses.edit', $address->id) }}" class="badge bg-yellow">
+                            <a href="{{ route('providers.edit', $provider->id) }}" class="badge bg-yellow">
                              Editar
                             </a>
-                            <a href="{{ route('addresses.show', $address->id) }}" class="badge bg-info">
+                            <a href="{{ route('providers.show', $provider->id) }}" class="badge bg-info">
                               Detalhes
                             </a>
                         </td>
@@ -82,9 +82,9 @@
                   </table>
 
                   @if (isset($data))
-                    {!! $addresses->appends($data)->links() !!}
+                    {!! $providers->appends($data)->links() !!}
                  @else
-                    {!! $addresses->links() !!}
+                    {!! $providers->links() !!}
                   @endif
 
             </div>

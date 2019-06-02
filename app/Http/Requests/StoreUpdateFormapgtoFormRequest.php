@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Http\Controllers\Admin\CategoryController;
 
-class StoreUpdateFormapgtoFormRequest extends FormRequest
+class StoreUpdateFormaPgtoFormRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -30,7 +29,6 @@ class StoreUpdateFormapgtoFormRequest extends FormRequest
             'parcela'            => "required",
             'prazoinicial'       => "required",
             'diasentreparcelas'  => "required",
-            'url'                => "required|min:3|max:60|unique:formapgtos,url,{$id},id",
         ];
     }
 }

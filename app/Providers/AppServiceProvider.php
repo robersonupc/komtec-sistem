@@ -43,7 +43,7 @@ class AppServiceProvider extends ServiceProvider
         view()->composer(
             'admin.addresses.*',
             function($view){
-                $view->with('cities', City::pluck('street', 'id'));
+                $view->with('cities', City::pluck('title', 'id'));
                 $view->with('states', State::pluck('title', 'id'));
             }
         );

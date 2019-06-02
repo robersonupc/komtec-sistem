@@ -17,7 +17,7 @@
 @section('content')
 <div class="content row">
 
-    <div class="box box-success">
+    <div class="box box-primary">
         <div class="box-body">
 
             @include('admin.includes.alerts')

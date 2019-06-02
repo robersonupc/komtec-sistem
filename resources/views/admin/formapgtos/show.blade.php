@@ -32,10 +32,11 @@
                 <form action="{{ route('formapgtos.destroy', $formapgto->id) }}" class="form" method="POST">
                     @csrf
 
-                    <input type="hidden" name="_method" value="DELETE">
+                    @method('DELETE')
 
-                    <button type="submit" class="btn btn-danger">Deletar</button>
-                </form>
+                    <button type="submit" class="btn btn-danger">
+                        Deletar a forma de pagamento {{ $formapgto->description }}
+                    </button>
 
             </div>
         </div>

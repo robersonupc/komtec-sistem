@@ -24,7 +24,8 @@ class StoreUpdateAddressFormRequest extends FormRequest
     {
         $id = $this->segment(3);
         return [
-            'rua'         => "required|min:3|max:60|unique:addresses,rua,{$id},id",
+            'street'         => "required|min:3|max:60|unique:addresses,street,{$id},id",
+            'url'            => "required|min:3|max:60|unique:addresses,url,{$id},id",
             'number'         => "required|min:1|max:6,{$id},id",
             'neighborhood'   => "required|min:3|max:60|",
             'complement'     => "max:9000",

@@ -17,7 +17,7 @@ class CreateAddressesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('city_id');
             $table->unsignedInteger('state_id');
-            $table->string('rua');
+            $table->string('street');
             $table->string('url')->unique();
             $table->string('number');
             $table->string('neighborhood');            

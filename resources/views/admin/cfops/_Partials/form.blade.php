@@ -1,26 +1,22 @@
 @csrf
 <div class="form-group">
-    <input type="text" value="{{ $cfop->codigo ?? old('codigo') }}" name="codigo" class="form-control" placeholder="Código">
+    {{ Form::text('code', null, ['placeholder' => 'Código', 'class' => 'form-control']) }}
 </div>
 <div class="form-group">
-    <input type="text" value="{{ $cfop->numseq ?? old('numseq') }}" name="numseq" class="form-control" placeholder="Número Seq">
+    {{ Form::text('numseq', null, ['placeholder' => 'Número Seq', 'class' => 'form-control']) }}
 </div>
 <div class="form-group">
-    <input type="text" value="{{ $cfop->description ?? old('description') }}" name="description" class="form-control" placeholder="Descrição">
+    {{ Form::text('description', null, ['placeholder' => 'Descrição', 'class' => 'form-control']) }}
 </div>
 <div class="form-group">
-    <input type="text" value="{{ $cfop->ent_sai ?? old('ent_sai') }}" name="ent_sai" class="form-control" placeholder="Ent_Sai">
+    {{ Form::text('ent_sai', null, ['placeholder' => 'Ent_Sai', 'class' => 'form-control']) }}
 </div>
 <div class="form-group">
-    <input type="text" value="{{ $cfop->operacao ?? old('operacao') }}" name="operacao" class="form-control" placeholder="Operação">
+    {{ Form::text('operacao', null, ['placeholder' => 'Operação', 'class' => 'form-control']) }}
 </div>
 <div class="form-group">
-    <input type="text" value="{{ $cfop->descr_int ?? old('descr_int') }}" name="descr_int" class="form-control" placeholder="Descr_Int">
+    {{ Form::text('descr_int', null, ['placeholder' => 'Descr_Int', 'class' => 'form-control']) }}
 </div>
-<div class="form-group">
-    <input type="text" value="{{ $cfop->url ?? old('url') }}" name="url" class="form-control" placeholder="URL">
-</div>
-
 <div class="form-group">
     <button type="submit" class="btn btn-success">Salvar</button>
 </div>

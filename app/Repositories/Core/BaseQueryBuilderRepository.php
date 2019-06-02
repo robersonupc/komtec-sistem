@@ -24,9 +24,9 @@ class BaseQueryBuilderRepository implements RepositoryInterface
     public function getAll()
     {
         return $this->db
-                        ->table($this->tb)
-                        ->orderBy($this->orderBy['column'], $this->orderBy['order'])
-                        ->get();
+                    ->table($this->tb)
+                    ->orderBy($this->orderBy['column'], $this->orderBy['order'])
+                    ->get();
     }
     
     public function findById($id)
@@ -49,7 +49,7 @@ class BaseQueryBuilderRepository implements RepositoryInterface
                         ->first();
     }
 
-    public function paginate($totalPage = 5)
+    public function paginate($totalPage = 10)
     {
         return $this->db
                     ->table($this->tb)

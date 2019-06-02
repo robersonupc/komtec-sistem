@@ -5,19 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
-use App\Models\State;
-use App\Models\City;
-
 class Address extends Model
 {
-    protected $fillable = ['city_id', 'state_id', 'rua', 'url', 'number', 'neighborhood', 'complement', 'zipeCode'];
+    protected $fillable = ['city_id', 'state_id', 'street', 'url', 'number', 'neighborhood', 'complement', 'zipeCode'];
 
     public static function boot()
     {
         parent::boot();
 
-        static::addGlobalScope('ordeByRua', function(Builder $builder) {
-            $builder->orderBy('rua', 'desc');
+        static::addGlobalScope('ordeByStreet', function(Builder $builder) {
+            $builder->orderBy('street', 'desc');
         });
     }
 

@@ -1,4 +1,3 @@
-@csrf
 <div class="form-group">
     {{ Form::text('title', null, ['placeholder' => 'Título', 'class' => 'form-control']) }}
 </div>

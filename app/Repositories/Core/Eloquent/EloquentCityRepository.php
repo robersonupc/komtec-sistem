@@ -2,10 +2,9 @@
 
 namespace App\Repositories\Core\Eloquent;
 
-use App\Models\City;
 use App\Repositories\Core\BaseEloquentRepository;
 use App\Repositories\Contracts\CityRepositoryInterface;
-use Illuminate\Http\Request;
+use App\Models\City;
 
 class EloquentCityRepository extends BaseEloquentRepository implements CityRepositoryInterface
 {
@@ -14,20 +13,27 @@ class EloquentCityRepository extends BaseEloquentRepository implements CityRepos
         return City::class;
     }
 
-    public function search(Request $request)
+    public function search(array $data)
     {
         return $this->entity
-                            ->where(function($query) use ($request) {
-                                
-                                if($request->title) {
-                                    $filter = $request->title;
-                                    $query->where(function($querySub) use ($filter) {
-                                        $querySub->where('title', 'LIKE', "%{$filter}%")
-                                                        ->orWhere('url', 'LIKE', "%{$filter}%");
-                                    });
-                                    
-                                }
+                        ->where(function ($query) use ($data) {
+                            if (isset($data['title'])) {
+                                $query->where('title', $data['title']);
+                            }
+
+                            if (isset($data['url'])) {
+                                $query->orWhere('url', $data['url']);
+                            }
                         })
-                        ->paginate(5);
+                        ->orderBy('id', 'desc')
+                        ->paginate();
+    }
+
+    public function addressesByCityId($id)
+    {
+        return $this->db
+                        ->table('addresses')
+                        ->where('cityy_id', $id)
+                        ->get();
     }
 }

@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\StoreUpdateStateFormRequest;
-use App\Repositories\Contracts\StateRepositoryInterface;
+use App\Repositories\Contracts\ProviderRepositoryInterface;
+use App\Http\Requests\StoreUpdateProviderFormRequest;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class StateController extends Controller
+class ProviderController extends Controller
 {
-
     protected $repository;
 
-    public function __construct(StateRepositoryInterface $repository)
+    public function __construct(ProviderRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
@@ -24,9 +23,10 @@ class StateController extends Controller
      */
     public function index()
     {
-        $states = $this->repository->orderBy('id')->paginate(5);
+        $providers = $this->repository->orderBy('id')->relationships('address')->paginate(5);
+        
+        return view('admin.providers.index', compact('providers'));
 
-        return view('admin.states.index', compact('states'));
     }
 
     /**
@@ -36,24 +36,21 @@ class StateController extends Controller
      */
     public function create()
     {
-        return view('admin.states.create');
+        return view('admin.providers.create', compact('provider', 'addresses'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\StoreUpdateStateFormRequest  $request
+     * @param  \Illuminate\Http\StoreUpdateProviderFormRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreUpdateStateFormRequest $request)
+    public function store(StoreUpdateProviderFormRequest $request)
     {
-        $this->repository->store([
-            'title'       => $request->title,
-            'uf'          => $request->uf
-        ]);
+        $provider = $this->repository->store($request->all());
 
         return redirect()
-            ->route('states.index')
+            ->route('providers.index')
             ->withSuccess('Cadastro realizado com sucesso');
     }
 
@@ -65,12 +62,12 @@ class StateController extends Controller
      */
     public function show($id)
     {
-        $state = $this->repository->findById($id);
+       $provider = $this->repository->findWhereFirst('id', $id);
 
-        if (!$state)        
-        return redirect()->back();
+        if (!$provider)        
+            return redirect()->back();
 
-        return view('admin.states.show', compact('state'));
+        return view('admin.providers.show', compact('provider'));
     }
 
     /**
@@ -81,29 +78,25 @@ class StateController extends Controller
      */
     public function edit($id)
     {
-        if (!$state = $this->repository->findById($id))
+        if (!$provider = $this->repository->findById($id))
             return redirect()->back();
 
-        return view('admin.states.edit', compact('state'));
+        return view('admin.providers.edit', compact('provider', 'addresses'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\StoreUpdateStateFormRequest  $request
+     * @param  \Illuminate\Http\StoreUpdateProviderFormRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreUpdateStateFormRequest $request, $id)
+    public function update(StoreUpdateProviderFormRequest $request, $id)
     {
-        $this->repository
-        ->update($id, [
-                'title'       => $request->title,
-                'uf'          => $request->uf,
-            ]);
+        $this->repository->update($id, $request->all());
 
         return redirect()
-            ->route('states.index')
+            ->route('providers.index')
             ->withSuccess('Cadastro atualizado com sucesso');
     }
 
@@ -117,15 +110,18 @@ class StateController extends Controller
     {
         $this->repository->delete($id);
 
-        return redirect()->route('states.index');
+        return redirect()
+                    ->route('providers.index')
+                    ->withSuccess('Fornecedor deletado com sucesso!');
     }
 
     public function search(Request $request)
     {
-        $data = $request->except('_token');
+        $filters = $request->except('_token');
 
-        $states = $this->repository->search($data);
+        $providers = $this->repository->search($request);
 
-        return view('admin.states.index', compact('states', 'data')); 
+        return view('admin.providers.index', compact('providers', 'filters')); 
     }
+    
 }

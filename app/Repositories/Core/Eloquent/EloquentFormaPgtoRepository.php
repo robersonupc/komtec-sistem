@@ -2,16 +2,16 @@
 
 namespace App\Repositories\Core\Eloquent;
 
-use App\Models\FomaPgto;
+use App\Models\FormaPgto;
 use App\Repositories\Core\BaseEloquentRepository;
-use App\Repositories\Contracts\FomaPgtoRepositoryInterface;
+use App\Repositories\Contracts\FormaPgtoRepositoryInterface;
 use Illuminate\Http\Request;
 
-class EloquentFomaPgtoRepository extends BaseEloquentRepository implements FomaPgtoRepositoryInterface
+class EloquentFormaPgtoRepository extends BaseEloquentRepository implements FormaPgtoRepositoryInterface
 {
     public function entity()
     {
-        return FomaPgto::class;
+        return FormaPgto::class;
     }
 
     public function search(Request $request)

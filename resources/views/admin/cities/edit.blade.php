@@ -22,12 +22,10 @@
 
                 @include('admin.includes.alerts')
 
-                <form action="{{ route('cities.update', $city->id) }}" class="form" method="POST">
-                   
-                    <input type="hidden" name="_method" value="PUT">
-
+                {{ Form::model($city, ['route' => ['cities.update', $city->id], 'class' => 'form']) }}
+                    @method('PUT')
                     @include('admin.cities._partials.form')
-                </form>
+                {{ Form::close() }}
             </div>
         </div>
     </div>

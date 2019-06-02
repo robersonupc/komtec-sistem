@@ -2,10 +2,8 @@
 
 namespace App\Repositories\Contracts;
 
-use Illuminate\Http\Request;
-
 interface CityRepositoryInterface
 {
-    public function search(Request $request);
+    public function search(array $data);
     public function addressesByCityId($id);
 }

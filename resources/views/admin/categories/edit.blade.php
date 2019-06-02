@@ -22,12 +22,10 @@
 
                 @include('admin.includes.alerts')
 
-                <form action="{{ route('categories.update', $category->id) }}" class="form" method="POST">
-                   
-                    <input type="hidden" name="_method" value="PUT">
-
+                {{ Form::model($category, ['route' => ['categories.update', $category->id], 'class' => 'form']) }}
+                    @method('PUT')
                     @include('admin.categories._partials.form')
-                </form>
+                {{ Form::close() }}
             </div>
         </div>
     </div>

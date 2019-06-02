@@ -2,8 +2,7 @@
 
 namespace App\Repositories\Contracts;
 
-interface CfopRepositoryInterface
+interface FormaPgtoRepositoryInterface
 {
     public function search(array $data);
-    public function productsByCfopId($id);
 }
